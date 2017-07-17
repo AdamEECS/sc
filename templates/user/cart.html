@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block body %}
+<div>
+    <h1>Shopping Cart</h1>
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th class="th-col-1">预览</th>
+            <th class="th-col-4">商品</th>
+            <th class="th-col-1">单价</th>
+            <th class="th-col-2">数量</th>
+            <th class="th-col-1">小计</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in ps %}
+        <tr data-uuid={{ p.uuid }}>
+            <td>
+                <img src="{{ p.pic }}"  class="product-pic-s">
+            </td>
+            <td>{{ p.name }}</td>
+            <td><span class="cart-product-price">{{ p.price }}</span></td>
+            <td>
+                <div class="quantity-form">
+                    <a class="cart-sub" href="#"> - </a>
+                    <span class="cart-product-count">{{ p.count }}</span>
+                    <a class="cart-add" href="#"> + </a>
+                </div>
+            </td>
+            <td><span class="cart-product-sum">{{ p.sum }}</span></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="panel panel-default">
+    <div class="panel-body no-padding">
+        {% if (ps|count) == 0 %}
+        <div class="left ">
+            <div class="empty-cart-title">
+                什么？购物车里竟然是空的！
+            </div>
+            <div class="empty-cart">
+                “再忙，也要买点东西犒劳自己~”
+            </div>
+
+        </div>
+        {% else %}
+        <div class="left panel-div">
+            总计 <span class="count_num class-cart-count">{{ u.count_num }}</span> 件，
+        </div>
+        <div class="left panel-div">
+            总金额 <span class="count_num class-cart-total">{{ u.count_price }}</span> 元。
+        </div>
+        {% endif %}
+        <a href="{{ url_for('user.check_order') }}" class="btn btn-lg btn-danger right" id="check-order"
+        {% if (ps|count) == 0 %}
+        disabled
+        {% endif %}
+        >去结算</a>
+    </div>
+</div>
+<script type="text/javascript" src="{{ url_for('static',filename='js/main.js') }}"></script>
+
+{% endblock %}

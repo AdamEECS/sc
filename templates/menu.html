@@ -1,0 +1,87 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">AGM 商城</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+
+                {% for c in cats %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">{{ c.name }}<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {% for i in c.sons %}
+                            <li><a href="#">{{ i.name }}</a></li>
+                                {% endfor %}
+
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            
+            <ul class="nav navbar-nav navbar-right">
+                {% if u %}
+                    {% if u.role=='admin' %}
+                        <li class="dropdown">
+                            <a class="dropdown-toggle"
+                               data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                管理员: {{ u.role }}<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="" href="{{ url_for('admin.category') }}">分类管理</a></li>
+                                <li><a class="" href="{{ url_for('admin.products') }}">产品管理</a></li>
+                                <li><a class="" href="{{ url_for('admin.users') }}">用户管理</a></li>
+                                <li><a class="" href="{{ url_for('admin.orders') }}">订单管理</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle"
+                           data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            欢迎，{{ u.username }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="" href="{{ url_for('user.profile') }}">个人资料</a></li>
+                            <li><a class="" href="{{ url_for('user.orders') }}">我的订单</a></li>
+                            <li><a class="" href="{{ url_for('user.address') }}">地址管理</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="block-center" href="{{ url_for('user.cart') }}">购物车
+                        <span class="badge class-cart-count">{{ u.get_cart_count() }}</span>
+                    </a></li>
+                    <li>
+                        <a class="block-center" href="{{ url_for('user.logout') }}">
+                            <span class="glyphicon glyphicon-off"></span> 登出
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a class="block-center" href="{{ url_for('user.login') }}">
+                            <span class="glyphicon glyphicon-log-in"></span> 登录
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block-center" href="{{ url_for('user.register') }}">
+                            <span class="glyphicon glyphicon-user"></span> 注册
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>

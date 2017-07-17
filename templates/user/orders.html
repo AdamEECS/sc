@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block body %}
+<div>
+    <h1>Orders List</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-8">
+            订单详情
+        </div>
+        <div class="col-xs-2">
+            金额
+        </div>
+        <div class="col-xs-2">
+            状态
+        </div>
+    </div>
+    {% for o in os %}
+    <div class="row panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-heading-time">{{ o.ct|time_str }}</span>
+            <a href="{{ url_for('user.order', orderNo=o.orderNo) }}">订单号：{{ o.orderNo }}</a>
+        </div>
+        <div class="panel-body">
+            <div class="col-xs-8">
+                {% for i in o.items %}
+                <div class="row product-item">
+                    <div class="col-xs-3">
+                        <img src="{{ i.pic }}"  class="product-pic-s">
+                    </div>
+                    <div class="col-xs-7">
+                        {{ i.name }}
+                    </div>
+                    <div class="col-xs-2">
+                        x{{ i.count }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-xs-2">
+                {{ o.amount }}
+            </div>
+            <div class="col-xs-2">
+                {{ o.status }}
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
