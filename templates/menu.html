@@ -22,8 +22,8 @@
                            aria-expanded="false">{{ c.name }}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             {% for i in c.sons %}
-                            <li><a href="#">{{ i.name }}</a></li>
-                                {% endfor %}
+                                <li><a href={{ url_for('product.products', category=i.name) }}>{{ i.name }}</a></li>
+                            {% endfor %}
 
                         </ul>
                     </li>

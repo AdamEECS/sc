@@ -20,23 +20,23 @@
         {% for p in ms %}
             <tr data-id={{ p.id }} class="info">
                 <td>
-                    <a href="{{ url_for('admin.product', uuid=p.uuid) }}">{{ p.name }}</a>
+                    <a href="#">{{ p.name }}</a>
 
                 </td>
                 <td>{{ p.price }}</td>
                 <td>
-                    <a href="{{ url_for('admin.product_delete', id=p.id) }}">删除</a>
+                    <a href="{{ url_for('admin.category_del', uuid=p.uuid) }}">删除</a>
                 </td>
             </tr>
             {% for i in p.sons %}
                 <tr data-id={{ i.id }}>
                     <td>
                          <span class="glyphicon glyphicon-chevron-right"></span>
-                        <a href="{{ url_for('admin.product', uuid=p.uuid) }}">{{ i.name }}</a>
+                        <a href="#">{{ i.name }}</a>
                     </td>
                     <td>{{ i.price }}</td>
                     <td>
-                        <a href="{{ url_for('admin.product_delete', id=i.id) }}">删除</a>
+                        <a href="{{ url_for('admin.category_del', uuid=i.uuid) }}">删除</a>
                     </td>
                 </tr>
             {% endfor %}

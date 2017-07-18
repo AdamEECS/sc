@@ -48,6 +48,8 @@
                 </div>
                 <label for="id-name">商品名称</label>
                 <input class="form-control" name="name" id=id-name value="{{ p.name }}" required>
+                <label for="id-pic">标题图片</label>
+                <input class="form-control" name="pic" id=id-pic value="{{ p.pic }}" required>
                 <label for="id-cate">产品分类</label>
                 <select class="form-control" name="category" id="id-cate" required>
                     {% for i in p.cates %}

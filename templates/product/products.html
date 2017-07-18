@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="">
+        <h1>{{ category }}</h1>
+    </div>
+    <div class="container">
+        {% for i in ps %}
+            <div class="div-product-item panel panel-default">
+                <div class="panel-body">
+                    <div class="div-product-title-img">
+                        <img class="img-product-title-img" src={{ i.pic }}>
+                    </div>
+                    <div class="div-product-content">
+                        <h2><a href={{ url_for('product.detail', uuid=i.uuid) }}>{{ i.name }}</a></h2>
+                        <div>购买模式： {{ i.mode }}</div>
+                        <div>购买单位： {{ i.unit }}</div>
+                        <div>产品价格： {{ i.price }}</div>
+                        <div>
+                            <form class="form-inline" method="get" action="{{ url_for('user.cart_add', product_uuid=i.uuid)}}">
+                                <div class="form-group">
+                                    <br>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <a href="#">
+                                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                            </a>
+                                        </div>
+                                        <input type="number" class="form-control" min="1"
+                                               placeholder="购买数量" required>
+                                        <div class="input-group-addon">
+                                            <a href="#">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br><br>
+{#                                <button type="submit" class="btn btn-danger">加入购物车</button>#}
+                            </form>
+                            <a class="btn btn-danger" href="{{ url_for('user.cart_add', product_uuid=i.uuid)}}">加入购物车</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

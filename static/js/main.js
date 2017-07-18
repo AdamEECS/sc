@@ -42,7 +42,7 @@ $('a.cart-add').click(function(){
     }
     log(data)
     let request = {
-        url: '/api/cart_add',
+        url: '/api/cart/add',
         type: 'post',
         contentType: 'application/json',
         data: JSON.stringify(data),
@@ -67,7 +67,7 @@ $('a.cart-sub').click(function(){
         'product_uuid': product_tr.data('uuid')
     }
     let request = {
-        url: '/api/cart_sub',
+        url: '/api/cart/sub',
         type: 'post',
         contentType: 'application/json',
         data: JSON.stringify(data),

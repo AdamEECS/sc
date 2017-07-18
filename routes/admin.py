@@ -18,14 +18,11 @@ main = Blueprint('admin', __name__)
 @main.route('/category/new', methods=['POST'])
 @admin_required
 def category_new():
-    u = current_user()
     form = request.form
     status, msgs = Category.valid(form)
     if status is True:
-        p = Category.new(form)
-        return redirect(url_for('admin.category', uuid=p.uuid))
-    else:
-        return render_template('admin/product_new.html', msgs=msgs, u=u)
+        Category.new(form)
+    return redirect(url_for('admin.category'))
 
 
 @main.route('/category')
@@ -36,6 +33,14 @@ def category():
     for m in ms:
         m.sons = Category.find(father_name=m.name)
     return render_template('admin/category.html', ms=ms, u=u)
+
+
+@main.route('/category/del/<uuid>')
+@admin_required
+def category_del(uuid):
+    m = Category.find_one(uuid=uuid)
+    m.delete()
+    return redirect(url_for('admin.category'))
 
 
 @main.route('/category/<uuid>', methods=['POST'])

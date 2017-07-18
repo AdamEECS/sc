@@ -1,41 +1,68 @@
 {% extends 'base.html' %}
 {% block body %}
-<ol class="breadcrumb">
-    <li><a href="{{ url_for('index.index') }}">Product List</a></li>
-    <li class="active">Detail</li>
-</ol>
+    <ol class="breadcrumb">
+        <li><a href={{ url_for('product.products', category=p.category) }}>{{ p.category }}</a></li>
+        <li class="active">{{ p.name }}</li>
+    </ol>
 
-<div hidden>
-    <textarea id="text-input">{{ p.detail }}</textarea>
-</div>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-3">
-        <img src="{{ p.pic }}"  class="product-pic-l" id=id-pic-view>
-    </div>
-    <div class="col-xs-12 col-sm-8">
-        <h3>{{ p.name }}</h3>
-        <h3 class="count_num">￥{{ p.price }}</h3>
-        <a class="btn btn-danger" href="{{ url_for('user.cart_add', product_uuid=p.uuid)}}">加入购物车</a>
+    <div hidden>
+        <textarea id="text-input">{{ p.detail }}</textarea>
     </div>
 
-</div>
+    <div class="row">
+        <div class="div-product-title-img">
+            <img src="{{ p.pic }}" class="img-product-title-img" id=id-pic-view>
+        </div>
+        <div class="div-product-content">
+            <h2>{{ p.name }}</h2>
+            <div>购买模式： {{ p.mode }}</div>
+            <div>购买单位： {{ p.unit }}</div>
+            <div>产品价格： {{ p.price }}</div>
+            <div>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <br>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                            <input type="number" class="form-control" min="1"
+                                   placeholder="购买数量" required>
+                            <div class="input-group-addon">
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    {#                    <button type="submit" class="btn btn-danger">加入购物车</button>#}
+                    <a class="btn btn-danger" href="{{ url_for('user.cart_add', product_uuid=p.uuid) }}">加入购物车</a>
+                </form>
+            </div>
 
-<div id="preview"> </div>
+        </div>
 
-<script src="https://cdn.bootcss.com/markdown.js/0.5.0/markdown.min.js"></script>
-<script>
-function Editor(input, preview) {
-    this.update = function () {
-        preview.innerHTML = markdown.toHTML(input.value);
-    };
-    input.editor = this;
-    this.update();
-}
-const log = function log(){
-  console.log.apply(console, arguments);
-}
+    </div>
 
-new Editor(document.getElementById("text-input"), document.getElementById("preview"));
-</script>
+    <div id="preview"></div>
+    <style>{{ p.css }}</style>
+
+    <script src="https://cdn.bootcss.com/markdown.js/0.5.0/markdown.min.js"></script>
+    <script>
+        function Editor(input, preview) {
+            this.update = function () {
+                preview.innerHTML = markdown.toHTML(input.value);
+            };
+            input.editor = this;
+            this.update();
+        }
+        const log = function log() {
+            console.log.apply(console, arguments);
+        }
+
+        new Editor(document.getElementById("text-input"), document.getElementById("preview"));
+    </script>
 {% endblock %}
