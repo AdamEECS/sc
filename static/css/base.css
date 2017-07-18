@@ -294,3 +294,7 @@ label {
 ul.nav li.dropdown:hover > ul.dropdown-menu {
     display: block;
 }
+.img-product-pic-preview {
+    width: 100px;
+    height: 100px;
+}

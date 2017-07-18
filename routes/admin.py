@@ -104,6 +104,7 @@ def product(uuid):
     u.upload_url = app.config['PIC_UPLOAD_URL']
     u.key = qiniu_key
     u.url = url_for('admin.ajax_pic', uuid=uuid)
+    p.cates = Category.find(father_name={'$ne': ''})
     return render_template('admin/product.html', p=p, u=u)
 
 
@@ -132,6 +133,26 @@ def ajax_pic(uuid):
     qiniu_key = request.form.get('key')
     p.qiniu_pic(qiniu_key)
     return redirect(url_for('admin.product', uuid=p.uuid))
+
+
+@main.route('/product/<uuid>/pic/upload', methods=['POST'])
+@admin_required
+def pic_upload(uuid):
+    p = Product.find_one(uuid=uuid)
+    pic = request.files['pic']
+    pic = p.pic_upload(pic)
+    if pic is not False:
+        return json.dumps({'status': 'success', 'msg': '上传成功：' + pic, 'pic': pic})
+    else:
+        return json.dumps({'status': 'danger', 'msg': '上传失败'})
+
+
+@main.route('/product/<uuid>/pic/del/<pic>', methods=['GET'])
+@admin_required
+def pic_del(uuid, pic):
+    p = Product.find_one(uuid=uuid)
+    p.pic_del(pic)
+    return json.dumps({'status': 'success', 'msg': '已删除：' + pic})
 
 
 @main.route('/delete/<int:id>')

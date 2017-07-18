@@ -1,5 +1,9 @@
 from . import MongoModel
+from . import timestamp
 from flask import current_app as app
+from flask import url_for
+
+import os
 
 
 class Product(MongoModel):
@@ -8,9 +12,13 @@ class Product(MongoModel):
         fields = [
             ('name', str, ''),
             ('category', str, ''),
+            ('mode', str, ''),
+            ('unit', str, ''),
             ('price', str, ''),
             ('pic', str, ''),
             ('detail', str, ''),
+            ('pics', list, []),
+            ('css', str, ''),
         ]
         fields.extend(super()._fields())
         return fields
@@ -51,3 +59,33 @@ class Product(MongoModel):
         if len(url) > 0:
             self.pic = url
             self.save()
+
+    def pic_upload(self, pic):
+        allowed_type = app.config['ALLOWED_UPLOAD_TYPE']
+        if pic.filename != '' and pic.filename.split('.')[-1] in allowed_type and len(self.pics) <= 20:
+            filename = '{}_{}.{}'.format(self.uuid, timestamp(), app.config['PRODUCT_PIC_EXT'])
+            _file = '../' + app.config['PRODUCT_PIC_DIR'] + filename
+            _root = os.path.dirname(os.path.abspath(__file__))
+            path = os.path.join(_root, _file)
+            pic.save(path)
+            self.pics.append(filename)
+            self.save()
+
+            return url_for('static', filename='product_pic/'+filename)
+        else:
+            return False
+
+    def pic_del(self, pic):
+        self.pics.remove(pic)
+        self.save()
+        _file = '../' + app.config['PRODUCT_PIC_DIR'] + pic
+        _root = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(_root, _file)
+        os.remove(path)
+        return True
+
+    @property
+    def pics_url(self):
+        l = [url_for('static', filename='product_pic/'+p) for p in self.pics]
+        l.reverse()
+        return l

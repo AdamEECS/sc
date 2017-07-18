@@ -8,7 +8,7 @@ main = Blueprint('index', __name__)
 def index():
     u = current_user()
     ps = Product.all()
-    return render_template('front.html', u=u, ps=ps, cats=get_cats())
+    return render_template('index.html', u=u, ps=ps, cats=get_cats())
 
 
 @main.route('/', methods=['POST'])
