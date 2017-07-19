@@ -214,6 +214,17 @@ def user_update(id):
     return redirect(url_for('admin.user', id=m.id))
 
 
+@main.route('/user/new', methods=['POST'])
+@admin_required
+def user_new():
+    form = request.form
+    status, msgs = User.valid(form)
+    print(status, msgs)
+    if status is True:
+        User.new(form)
+    return redirect(url_for('admin.users'))
+
+
 # ------------------------- 订单管理 --------------------------
 @main.route('/orders')
 @admin_required

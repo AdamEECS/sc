@@ -90,7 +90,8 @@ class User(MongoModel):
         password = form.get('password', '')
         email = form.get('email', '')
         valid_username = cls.find_one(username=username) is None
-        valid_email = cls.find_one(email=email) is None
+        # valid_email = cls.find_one(email=email) is None
+        valid_email = True
         valid_username_len = len(username) >= 3
         valid_password_len = len(password) >= 3
         # valid_captcha = self.captcha == '3'
