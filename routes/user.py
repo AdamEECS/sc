@@ -1,6 +1,7 @@
 from routes import *
 from models.user import User
 from models.order import Order
+from models.brought import Brought
 from decimal import Decimal
 from flask import current_app as app
 
@@ -109,6 +110,14 @@ def reset_password(tb64):
         return redirect(url_for('user.index'))
 
 
+@main.route('/product')
+@login_required
+def product():
+    cu = current_user()
+    os = Brought.get_by_user(cu.uuid)
+    return render_template('user/product.html', u=cu, os=os)
+
+
 @main.route('/profile')
 @login_required
 def profile():
@@ -193,7 +202,7 @@ def cart_clear():
 @login_required
 def logout():
     p = session.pop('uid')
-    print('logout: pop uid', p)
+
     flash('账号已安全退出', 'success')
     return redirect(url_for('index.index'))
 
@@ -201,7 +210,7 @@ def logout():
 @main.route('/order/check')
 @login_required
 @cart_not_empty_required
-@email_verify_required
+# @email_verify_required
 def check_order():
     u = current_user()
     u.add = u.get_default_add()
@@ -214,7 +223,7 @@ def check_order():
 @main.route('/pay', methods=['POST'])
 @login_required
 @cart_not_empty_required
-@email_verify_required
+# @email_verify_required
 def pay():
     u = current_user()
     form = request.form

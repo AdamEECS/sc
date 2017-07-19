@@ -146,7 +146,7 @@ class User(MongoModel):
                 p = Product.find_one(uuid=k)
                 p.count = v
                 p.sum = '{0:.2f}'.format(Decimal(p.price) * int(p.count))
-                print(p.sum)
+
                 ps.append(p)
         except AttributeError:
             self.cart_clear()
@@ -158,12 +158,12 @@ class User(MongoModel):
 
     def buy(self, kwargs):
         ps = self.get_cart_detail()
-        print('obj-ps:', ps)
+
         amount = str(sum([Decimal(p.sum) for p in ps]))
         add_id = int(kwargs.get('add', 0))
         address = safe_list_get(self.add_list, add_id, '')
         ps = [p.__dict__ for p in ps]
-        print('dic-ps:', ps)
+
         form = dict(
             user_id=self.id,
             user_uuid=self.uuid,

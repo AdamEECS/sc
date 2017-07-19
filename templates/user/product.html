@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block body %}
+<div>
+    <h1>Products List</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-2">
+            已购产品
+        </div>
+        <div class="col-xs-2">
+            激活时间
+        </div>
+        <div class="col-xs-2">
+            模式
+        </div>
+         <div class="col-xs-2">
+            数量
+        </div>
+        <div class="col-xs-2">
+            有效期(月)
+        </div>
+        <div class="col-xs-2">
+            状态
+        </div>
+    </div>
+    {% for o in os %}
+    <div class="row panel panel-default">
+
+        <div class="panel-body">
+            <div class="col-xs-2">
+                {{ o.product_name }}
+            </div>
+            <div class="col-xs-2">
+                {{ o.ct|time_str }}
+            </div>
+            <div class="col-xs-2">
+                {{ o.mode }}
+            </div>
+            <div class="col-xs-2">
+                {{ o.times }}
+            </div>
+            <div class="col-xs-2">
+                {{ o.month }}
+            </div>
+            <div class="col-xs-2">
+                {{ o.status }}
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

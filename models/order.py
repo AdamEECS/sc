@@ -1,4 +1,5 @@
 from . import MongoModel
+from .brought import Brought
 from enum import Enum
 
 
@@ -48,4 +49,20 @@ class Order(MongoModel):
     def finish(self):
         self.status = 'finish'
         self.save()
+        # 管理员手动激活
+        self.active()
         return self
+
+    def active(self):
+        user_uuid = self.user_uuid
+        for i in self.items:
+            d = dict(
+                user_uuid=user_uuid,
+                product_name=i.get('name'),
+                mode=i.get('mode'),
+            )
+            if d['mode'] == 'TIMES':
+                d['times'] = i.get('count') * int(i.get('unit', 1))
+            elif d['mode'] == 'MONTH':
+                d['month'] = i.get('count') * int(i.get('unit', 1))
+            Brought.new(d)

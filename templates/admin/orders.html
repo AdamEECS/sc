@@ -30,9 +30,9 @@
             <td>{{ m.amount }}</td>
             <td>
                 {% if m.status == 'pending' %}
-                <a href="{{ url_for('admin.order_delivery', orderNo=m.orderNo) }}">发货</a>
+                <a href="{{ url_for('admin.order_finish', orderNo=m.orderNo) }}">确认</a>
                 {% else %}
-                已发货
+                已确认
                 {% endif %}
             </td>
             <td>{{ m.ct|time_str }}</td>

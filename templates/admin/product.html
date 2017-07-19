@@ -58,9 +58,9 @@
                 </select>
                 <label for="id-mode">购买模式</label>
                 <select class="form-control" name="mode" id="id-mode" required>
-                    <option {% if p.type == 'TIMES' %} selected {% endif %}>TIMES</option>
-                    <option {% if p.type == 'MONTH' %} selected {% endif %}>MONTH</option>
-                    <option {% if p.type == 'ONCE' %} selected {% endif %}>ONCE</option>
+                    <option {% if p.mode == 'TIMES' %} selected {% endif %}>TIMES</option>
+                    <option {% if p.mode == 'MONTH' %} selected {% endif %}>MONTH</option>
+                    <option {% if p.mode == 'ONCE' %} selected {% endif %}>ONCE</option>
                 </select>
                 <label for="id-unit">购买单位</label>
                 <input class="form-control" name="unit" id=id-unit value="{{ p.unit }}" required>

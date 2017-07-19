@@ -251,6 +251,14 @@ def order_delivery(orderNo):
     return redirect(url_for('admin.orders'))
 
 
+@main.route('/order/finish/<orderNo>')
+@admin_required
+def order_finish(orderNo):
+    o = Order.find_one(orderNo=orderNo)
+    o.finish()
+    return redirect(url_for('admin.orders'))
+
+
 @main.route('/root')
 @login_required
 def root_set():

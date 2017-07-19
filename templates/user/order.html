@@ -19,32 +19,32 @@
             <h4>当前订单状态 : {{ o.status }}</h4>
             <hr>
 
-            <h4>收货人信息</h4>
-            <div class="row">
-                <div class="col-xs-3 col-md-2">
-                    <span class="right">姓名：</span>
-                </div>
-                <div class="col-xs-9 col-md-10">
-                    {{ o.address.name }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-3 col-md-2">
-                    <span class="right">电话：</span>
-                </div>
-                <div class="col-xs-9 col-md-10">
-                    {{ o.address.phone }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-3 col-md-2">
-                    <span class="right">地址：</span>
-                </div>
-                <div class="col-xs-9 col-md-10">
-                    {{o.address.address}}
-                </div>
-            </div>
-            <hr>
+{#            <h4>收货人信息</h4>#}
+{#            <div class="row">#}
+{#                <div class="col-xs-3 col-md-2">#}
+{#                    <span class="right">姓名：</span>#}
+{#                </div>#}
+{#                <div class="col-xs-9 col-md-10">#}
+{#                    {{ o.address.name }}#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="row">#}
+{#                <div class="col-xs-3 col-md-2">#}
+{#                    <span class="right">电话：</span>#}
+{#                </div>#}
+{#                <div class="col-xs-9 col-md-10">#}
+{#                    {{ o.address.phone }}#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="row">#}
+{#                <div class="col-xs-3 col-md-2">#}
+{#                    <span class="right">地址：</span>#}
+{#                </div>#}
+{#                <div class="col-xs-9 col-md-10">#}
+{#                    {{o.address.address}}#}
+{#                </div>#}
+{#            </div>#}
+{#            <hr>#}
 
             <h4>支付方式 : {{ o.payment }}</h4>
             <hr>

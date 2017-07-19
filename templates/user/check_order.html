@@ -25,51 +25,51 @@
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <h4>收货人信息</h4>
-        <div class="container-fluid" id=id-div-add-default>
-            {% if not u.add %}
-            还没有地址，去<a href="{{ url_for('user.address')}}">创建</a>
-            {% else %}
-            <label>
-                <div class="row">
-                    <div class="col-xs-1 col-sm-1">
-                        <input class="right" type="radio" name="add" value="{{ u.add_default }}" checked required>
-                    </div>
-                    <div class="col-xs-5 col-sm-2">
-                        {{ u.add.name }}
-                    </div>
-                    <div class="col-xs-5 col-sm-2">
-                        {{ u.add.phone }}
-                    </div>
-                    <div class="col-xs-12 col-sm-7">
-                        {{ u.add.address }}
-                    </div>
-                </div>
-            </label>
-            <a href="#" id=id-button-more>更多地址</a>
-            {% endif %}
-        </div>
-        <div class="container-fluid" id=id-div-add-more hidden>
-            {% for add in u.add_list %}
-            <label>
-                <div class="row">
-                    <div class="col-xs-1 col-sm-1">
-                        <input class="right" type="radio" name="add" value="{{ loop.index0 }}">
-                    </div>
-                    <div class="col-xs-5 col-sm-2">
-                        {{ add.name }}
-                    </div>
-                    <div class="col-xs-5 col-sm-2">
-                        {{ add.phone }}
-                    </div>
-                    <div class="col-xs-12 col-sm-7">
-                        {{ add.address }}
-                    </div>
-                </div>
-            </label>
-            {% endfor %}
-            <a href="#" id=id-button-less>收起地址</a>
-        </div>
+{#        <h4>收货人信息</h4>#}
+{#        <div class="container-fluid" id=id-div-add-default>#}
+{#            {% if not u.add %}#}
+{#            还没有地址，去<a href="{{ url_for('user.address')}}">创建</a>#}
+{#            {% else %}#}
+{#            <label>#}
+{#                <div class="row">#}
+{#                    <div class="col-xs-1 col-sm-1">#}
+{#                        <input class="right" type="radio" name="add" value="{{ u.add_default }}" checked required>#}
+{#                    </div>#}
+{#                    <div class="col-xs-5 col-sm-2">#}
+{#                        {{ u.add.name }}#}
+{#                    </div>#}
+{#                    <div class="col-xs-5 col-sm-2">#}
+{#                        {{ u.add.phone }}#}
+{#                    </div>#}
+{#                    <div class="col-xs-12 col-sm-7">#}
+{#                        {{ u.add.address }}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </label>#}
+{#            <a href="#" id=id-button-more>更多地址</a>#}
+{#            {% endif %}#}
+{#        </div>#}
+{#        <div class="container-fluid" id=id-div-add-more hidden>#}
+{#            {% for add in u.add_list %}#}
+{#            <label>#}
+{#                <div class="row">#}
+{#                    <div class="col-xs-1 col-sm-1">#}
+{#                        <input class="right" type="radio" name="add" value="{{ loop.index0 }}">#}
+{#                    </div>#}
+{#                    <div class="col-xs-5 col-sm-2">#}
+{#                        {{ add.name }}#}
+{#                    </div>#}
+{#                    <div class="col-xs-5 col-sm-2">#}
+{#                        {{ add.phone }}#}
+{#                    </div>#}
+{#                    <div class="col-xs-12 col-sm-7">#}
+{#                        {{ add.address }}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </label>#}
+{#            {% endfor %}#}
+{#            <a href="#" id=id-button-less>收起地址</a>#}
+{#        </div>#}
 
         <h4>支付方式</h4>
         <div class="container-fluid">
@@ -96,10 +96,10 @@
             <label>
                 <div class="row">
                     <div class="col-xs-1 col-sm-1">
-                        <input class=right type="radio" name="pay" value="face2face">
+                        <input class=right type="radio" name="pay" value="bank">
                     </div>
                     <div class="col-xs-10 col-sm-10">
-                        货到付款
+                        银行转账
                     </div>
                 </div>
             </label>
@@ -136,19 +136,19 @@
         <div class="left panel-h4">
             <h4>应付总额 : <span class="count_num">{{ u.count_price }}</span> 元</h4>
         </div>
-        <button class="btn btn-lg btn-danger right" id="check-order" {% if not u.add %} disabled {% endif %}>确认付款</button>
+        <button class="btn btn-lg btn-danger right" id="check-order" >确认付款</button>
     </div>
 </div>
 </form>
 
-<script>
-$('#id-button-more').click(function(){
-    $('#id-div-add-more').show()
-    $('#id-div-add-default').hide()
-})
-$('#id-button-less').click(function(){
-    $('#id-div-add-more').hide()
-    $('#id-div-add-default').show()
-})
-</script>
+{#<script>#}
+{#$('#id-button-more').click(function(){#}
+{#    $('#id-div-add-more').show()#}
+{#    $('#id-div-add-default').hide()#}
+{#})#}
+{#$('#id-button-less').click(function(){#}
+{#    $('#id-div-add-more').hide()#}
+{#    $('#id-div-add-default').show()#}
+{#})#}
+{#</script>#}
 {% endblock %}
