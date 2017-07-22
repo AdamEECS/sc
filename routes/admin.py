@@ -270,6 +270,7 @@ def order_finish(orderNo):
     return redirect(url_for('admin.orders'))
 
 
+# 管理员初始化
 @main.route('/root')
 @login_required
 def root_set():
