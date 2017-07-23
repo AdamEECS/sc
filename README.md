@@ -1,9 +1,5 @@
 # S.C.
 
-## git commit 
-
-😂😂😂
-
 ## mongo服务启动方法：
 
 ```
