@@ -15,7 +15,7 @@
                     <input class="form-control" name="name" id=id-name required>
                     <label for="id-category">商品分类</label>
                     <select class="form-control" name="category" id="id-category" required>
-                        {% for i in cats %}
+                        {% for i in u.cates %}
                         <option>{{ i.name }}</option>
                         {% endfor %}
                     </select>

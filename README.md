@@ -39,6 +39,7 @@ mongo导出
 ```
 mongoexport -d mongo_sc -c User -o /Users/san/pros/sc/db/user.dat
 mongoexport -d mongo_sc -c Category -o /Users/san/pros/sc/db/category.dat
+mongoexport -d mongo_sc -c Product -o /Users/san/pros/sc/db/product.dat
 ```
 
 mongo导入
@@ -47,4 +48,5 @@ mongo导入
 ```
 mongoimport -d mongo_sc -c User --upsert --drop /var/www/sc/db/user.dat
 mongoimport -d mongo_sc -c Category --upsert --drop /var/www/sc/db/category.dat
+mongoimport -d mongo_sc -c Product --upsert --drop /var/www/sc/db/product.dat
 ```

@@ -57,8 +57,8 @@ def category_update(uuid):
 @admin_required
 def product_new_page():
     u = current_user()
-    cats = Category.find(father_name={'$ne': ''})
-    return render_template('admin/product_new.html', u=u, cats=cats)
+    u.cates = Category.find(father_name={'$ne': ''})
+    return render_template('admin/product_new.html', u=u)
 
 
 @main.route('/product/new', methods=['POST'])
