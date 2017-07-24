@@ -1,0 +1,16 @@
+{"_id":{"$oid":"596c6dd271f9ce4c72d10efe"},"father_name":"","id":1,"deleted":false,"ct":1500278226,"type":"category","uuid":"c8018ff41d20","ut":1500278226,"name":"网络服务"}
+{"_id":{"$oid":"596c6f3671f9ce4c9e22c252"},"uuid":"343a8f155745","ut":1500278582,"deleted":false,"name":"网络增值服务","ct":1500278582,"id":2,"type":"category","father_name":"网络服务"}
+{"_id":{"$oid":"596c70e571f9ce4ccfb2cd22"},"deleted":false,"id":3,"ut":1500279013,"name":"开发服务","father_name":"网络服务","type":"category","uuid":"d2e24c3f592b","ct":1500279013}
+{"_id":{"$oid":"596c70ee71f9ce4ccfb2cd23"},"deleted":false,"id":4,"ut":1500279022,"name":"CMS","father_name":"网络服务","type":"category","uuid":"6067ab936470","ct":1500279022}
+{"_id":{"$oid":"596c70f471f9ce4ccfb2cd24"},"deleted":false,"id":5,"ut":1500279028,"name":"CRM","father_name":"网络服务","type":"category","uuid":"0cdc6f09e7b2","ct":1500279028}
+{"_id":{"$oid":"596c711871f9ce4ccfb2cd25"},"deleted":false,"id":6,"ut":1500279064,"name":"前端数据服务","father_name":"前端服务","type":"category","uuid":"417ca794de45","ct":1500279064}
+{"_id":{"$oid":"596c717371f9ce4ccfb2cd26"},"deleted":false,"id":7,"ut":1500279155,"name":"前端服务","father_name":"","type":"category","uuid":"344dcf5390ae","ct":1500279155}
+{"_id":{"$oid":"596c717e71f9ce4ccfb2cd27"},"deleted":false,"id":8,"ut":1500279166,"name":"网页应用","father_name":"前端服务","type":"category","uuid":"f32b5bd5cdbd","ct":1500279166}
+{"_id":{"$oid":"596c718971f9ce4ccfb2cd28"},"deleted":false,"id":9,"ut":1500279177,"name":"咨询及内容","father_name":"","type":"category","uuid":"00b26530f923","ct":1500279177}
+{"_id":{"$oid":"596c719171f9ce4ccfb2cd29"},"deleted":false,"id":10,"ut":1500279185,"name":"知识库服务","father_name":"咨询及内容","type":"category","uuid":"754619d326dc","ct":1500279185}
+{"_id":{"$oid":"596c71a171f9ce4ccfb2cd2a"},"deleted":false,"id":11,"ut":1500279201,"name":"AML及KYC咨询","father_name":"咨询及内容","type":"category","uuid":"f6a88713da92","ct":1500279201}
+{"_id":{"$oid":"596c71a871f9ce4ccfb2cd2b"},"deleted":false,"id":12,"ut":1500279208,"name":"中英文翻译","father_name":"咨询及内容","type":"category","uuid":"902ba453e424","ct":1500279208}
+{"_id":{"$oid":"596daff671f9ce6200d6709d"},"uuid":"2d4e493f20b5","ut":1500360694,"type":"category","father_name":"","id":13,"name":"","ct":1500360694,"deleted":true}
+{"_id":{"$oid":"59755c5571f9ce054b0e7109"},"uuid":"c19b7a175412","type":"category","father_name":"网络服务","name":"AGENTWeb","id":14,"ct":1500863573,"deleted":false,"ut":1500863573}
+{"_id":{"$oid":"59755c5e71f9ce054b0e710a"},"uuid":"42da0ead274b","type":"category","father_name":"网络服务","name":"报表服务","id":15,"ct":1500863582,"deleted":false,"ut":1500863582}
+{"_id":{"$oid":"59755c8a71f9ce054b0e710b"},"uuid":"49be8ad741a9","type":"category","father_name":"咨询及内容","name":"外汇深度分析","id":16,"ct":1500863626,"deleted":false,"ut":1500863626}
