@@ -5,10 +5,10 @@ from models.order import Order
 from models.user import User
 from flask import current_app as app
 
-import qiniu
+# import qiniu
 from config import key
 
-q = qiniu.Auth(key.qiniu_access_key, key.qiniu_secret_key)
+# q = qiniu.Auth(key.qiniu_access_key, key.qiniu_secret_key)
 
 main = Blueprint('admin', __name__)
 
@@ -105,7 +105,7 @@ def product(uuid):
     }
     t = timestamp()
     qiniu_key = '{}{}_{}.{}'.format(app.config['CDN_PRODUCT_PIC_DIR'], uuid, t, app.config['PRODUCT_PIC_EXT'])
-    u.token = q.upload_token(app.config['CDN_BUCKET'], key=qiniu_key, policy=policy)
+    # u.token = q.upload_token(app.config['CDN_BUCKET'], key=qiniu_key, policy=policy)
     u.upload_url = app.config['PIC_UPLOAD_URL']
     u.key = qiniu_key
     u.url = url_for('admin.ajax_pic', uuid=uuid)
