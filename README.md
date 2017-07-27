@@ -50,3 +50,7 @@ mongoimport -d mongo_sc -c User --upsert --drop /var/www/sc/db/user.dat
 mongoimport -d mongo_sc -c Category --upsert --drop /var/www/sc/db/category.dat
 mongoimport -d mongo_sc -c Product --upsert --drop /var/www/sc/db/product.dat
 ```
+
+todo
+
+充值积分，按积分消费

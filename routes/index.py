@@ -5,6 +5,7 @@ main = Blueprint('index', __name__)
 
 
 @main.route('/')
+@login_required
 def index():
     u = current_user()
     ps = Product.all()
@@ -12,6 +13,7 @@ def index():
 
 
 @main.route('/', methods=['POST'])
+@login_required
 def index_search():
     u = current_user()
     search = request.form.get('search', None)

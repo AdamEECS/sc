@@ -5,6 +5,7 @@ main = Blueprint('product', __name__)
 
 
 @main.route('/detail/<uuid>')
+@login_required
 def detail(uuid):
     u = current_user()
     p = Product.find_one(uuid=uuid)
@@ -13,6 +14,7 @@ def detail(uuid):
 
 
 @main.route('/category/<category>')
+@login_required
 def products(category):
     u = current_user()
     ps = Product.find(category=category)

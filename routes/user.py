@@ -33,11 +33,13 @@ def login():
 
 
 @main.route('/register')
+@login_required
 def register_page():
     return render_template('user/register.html')
 
 
 @main.route('/register', methods=['POST'])
+@login_required
 def register():
     form = request.form
     captcha = form.get('captcha', '').lower()
@@ -58,11 +60,13 @@ def register():
 
 
 @main.route('/password/forget')
+@login_required
 def forget_password():
     return render_template('user/forget_password.html')
 
 
 @main.route('/password/forget', methods=['POST'])
+@login_required
 def forget_password_send():
     form = request.form
     captcha = form.get('captcha', '').lower()
@@ -78,6 +82,7 @@ def forget_password_send():
 
 
 @main.route('/email/verify/<tb64>')
+@login_required
 def email_verify(tb64):
     if User.email_verify(tb64):
         flash('邮箱验证通过', 'success')
@@ -87,6 +92,7 @@ def email_verify(tb64):
 
 
 @main.route('/password/forget/verify/<tb64>')
+@login_required
 def forget_password_verify(tb64):
     if User.forget_password_verify(tb64):
         flash('重置邮件验证通过', 'success')
@@ -97,6 +103,7 @@ def forget_password_verify(tb64):
 
 
 @main.route('/password/reset/<tb64>', methods=['POST'])
+@login_required
 def reset_password(tb64):
     password = request.form.get('password', '')
     if User.forget_password_verify(tb64):

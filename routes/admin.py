@@ -270,14 +270,14 @@ def order_finish(orderNo):
     return redirect(url_for('admin.orders'))
 
 
-# 管理员初始化
-@main.route('/root')
-@login_required
-def root_set():
-    root = User.find_one(username='root')
-    root.role = 'admin'
-    root.save()
-    return redirect(url_for('admin.products'))
+# # 管理员初始化
+# @main.route('/root')
+# @login_required
+# def root_set():
+#     root = User.find_one(username='root')
+#     root.role = 'admin'
+#     root.save()
+#     return redirect(url_for('admin.products'))
 
 # @main.route('/uuid_reset_all')
 # @admin_required
