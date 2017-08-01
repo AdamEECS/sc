@@ -42,6 +42,7 @@ class User(MongoModel):
             ('cart', dict, {}),
             ('add_list', list, []),
             ('add_default', int, 0),
+            ('point', int, 0),
         ]
         fields.extend(super()._fields())
         return fields
