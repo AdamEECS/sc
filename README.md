@@ -54,3 +54,4 @@ mongoimport -d mongo_sc -c Product --upsert --drop /var/www/sc/db/product.dat
 todo
 
 充值积分，按积分消费
+对接支付接口
