@@ -1,4 +1,5 @@
 from pymongo import *
+import os
 
 config_dict = dict(
     USER_AVATAR_DIR='static/user_avatar/',
@@ -15,6 +16,7 @@ config_dict = dict(
     BASE_URL='http://localhost:8001',
     MAX_CONTENT_LENGTH=2 * 1024 * 1024,
     ALLOWED_UPLOAD_TYPE=['jpg', 'jpeg', 'gif', 'png', 'ico'],
+    PINGPP_PRIVATE_KEY_PATH=os.path.join(os.path.dirname(__file__), 'mtk_rsa.pem'),
 )
 
 # mongodb config

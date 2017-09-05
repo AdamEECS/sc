@@ -303,3 +303,31 @@ def address_default(id):
     cu.add_default = id
     cu.save()
     return redirect(url_for('user.address'))
+
+
+@main.route('/charge', methods=['POST'])
+@login_required
+def charge():
+    cu = current_user()
+    import pingpp
+    from config import key
+    app_id = key.pingpp_app_id
+    pingpp.api_key = key.pingpp_api_key
+    pingpp.private_key_path = app.config['PINGPP_PRIVATE_KEY_PATH']
+    try:
+        ch = pingpp.Charge.create(
+            order_no='12345678900',
+            amount=1000000,
+            app=dict(id=app_id),
+            channel='alipay_pc_direct',
+            currency='cny',
+            client_ip='127.0.0.1',
+            subject='充值点数:' + cu.username,
+            body=cu.username,
+            extra=dict(success_url='http://127.0.0.1:8001/user/profile')
+        )
+        print('charge', ch)
+        return json.dumps(ch)
+    except Exception as e:
+        print('e', e)
+        return json.dumps(e)

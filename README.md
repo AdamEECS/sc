@@ -55,3 +55,13 @@ todo
 
 充值积分，按积分消费
 对接支付接口
+
+## 增加支付接口
+
+1，安装 pingpp
+
+```
+pip3 install pingpp
+```
+
+2，更新 config 目录下的 key.py config.py，并增加 *.pem 私钥。

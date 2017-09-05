@@ -27,18 +27,18 @@ let template = function (r) {
     return div
 }
 
-$('.button-re-verify').click(function() {
+$('.button-re-verify').click(function () {
     $('#id-div-email-info').toggle()
     $('#id-div-email-update').toggle()
 })
 
-let ajaxFormSubmit = function() {
+let ajaxFormSubmit = function () {
     let ajaxForm = $(event.target)
     let img = ajaxForm.find('img')
     img.click()
     let mailCodeButton = ajaxForm.find('#id-button-verify')
     let alertContainer = $('.alert-container')
-    ajaxForm.ajaxSubmit(function(response) {
+    ajaxForm.ajaxSubmit(function (response) {
         let r = JSON.parse(response)
         alertContainer.append(template(r))
         $('.alert').delay(5000).fadeOut(600)
@@ -47,7 +47,7 @@ let ajaxFormSubmit = function() {
     let t = 60
     mailCodeButton.text(`获取验证邮件（ ${t} ）`)
     mailCodeButton.attr('disabled', true)
-    let timer = setInterval(function() {
+    let timer = setInterval(function () {
         t -= 1
         mailCodeButton.text(`获取验证邮件（ ${t} ）`)
         if (t <= 0) {
@@ -56,5 +56,19 @@ let ajaxFormSubmit = function() {
             mailCodeButton.text(`获取验证邮件`)
         }
     }, 1000);
+    return false;
+}
+
+let ajaxCharge = function () {
+    let ajaxForm = $(event.target)
+    ajaxForm.ajaxSubmit(function (response) {
+        let charge = JSON.parse(response)
+        pingpp.createPayment(charge, function (result, err) {
+            console.log(result);
+            console.log(err.msg);
+            console.log(err.extra);
+
+        });
+    });
     return false;
 }
