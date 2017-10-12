@@ -65,3 +65,9 @@ pip3 install pingpp
 ```
 
 2，更新 config 目录下的 key.py config.py，并增加 *.pem 私钥。
+
+3，安装支付宝接口
+
+```
+pip install python-alipay-sdk --upgrade
+```
