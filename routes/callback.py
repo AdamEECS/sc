@@ -30,12 +30,17 @@ def ali():
     success = alipay.verify(data, signature)
     if success and data["trade_status"] in ("TRADE_SUCCESS", "TRADE_FINISHED"):
         username = data.get('body')
+        trade_no = data.get('out_trade_no')
         from decimal import Decimal
         charge = int(Decimal(data.get('total_amount')) * 100)
-        print("trade succeed user: {}, charge: {}".format(username, charge))
+        print("[{}] succeed user: {}, charge: {} order: {}".format(time_str(timestamp()), username, charge, trade_no))
         u = User.find_one(username=username)
-        u.point += charge
-        u.save()
+        if trade_no not in u.charge_orders:
+            u.charge_orders.append(trade_no)
+            u.point += charge
+            u.save()
+            return json.dumps({"success": True})
+    return json.dumps({"success": False})
 
 
 @main.route('/all', methods=['POST'])

@@ -43,6 +43,7 @@ class User(MongoModel):
             ('add_list', list, []),
             ('add_default', int, 0),
             ('point', int, 0),
+            ('charge_orders', list, []),
         ]
         fields.extend(super()._fields())
         return fields
