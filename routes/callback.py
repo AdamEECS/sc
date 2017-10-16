@@ -33,7 +33,7 @@ def ali():
         from decimal import Decimal
         charge = int(Decimal(data.get('total_amount')) * 100)
         print("trade succeed user: {}, charge: {}".format(username, charge))
-        u = User.find(username=username)
+        u = User.find_one(username=username)
         u.point += charge
         u.save()
 
