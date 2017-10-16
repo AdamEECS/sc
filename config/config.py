@@ -17,6 +17,11 @@ config_dict = dict(
     MAX_CONTENT_LENGTH=2 * 1024 * 1024,
     ALLOWED_UPLOAD_TYPE=['jpg', 'jpeg', 'gif', 'png', 'ico'],
     PINGPP_PRIVATE_KEY_PATH=os.path.join(os.path.dirname(__file__), 'mtk_rsa.pem'),
+    ALIPAY_PRIVATE_KEY_PATH=os.path.join(os.path.dirname(__file__), 'mtk_rsa.pem'),
+    ALIPAY_PUBLIC_KEY_PATH=os.path.join(os.path.dirname(__file__), 'ali_pub.pem'),
+    ALIPAY_CALLBACK_URL="http://yc.miteke.com/callback/ali",
+    ALIPAY_RETURN_URL="http://yc.miteke.com/user/profile",
+    ALIPAY_APPID="2017092008837195",
 )
 
 # mongodb config

@@ -21,10 +21,10 @@
     <div class="panel panel-default panel-profile">
         <div class="panel-heading">账户点数</div>
         <div class="panel-body">
-            <form method=POST enctype=multipart/form-data action="{{ url_for('user.charge') }}" onsubmit="return ajaxCharge()">
+            <form method=POST enctype=multipart/form-data action="{{ url_for('user.charge') }}" >
                 <div >当前点数: {{ u.point }}</div>
                 <label for="id-charge">充值点数</label>
-                <input class="form-control" name=password id=id-charge>
+                <input class="form-control" name=charge id=id-charge>
                 <hr>
                 <button class="btn btn-success btn-block">充值</button>
             </form>
