@@ -32,7 +32,7 @@ def ali():
         username = data.get('body')
         trade_no = data.get('out_trade_no')
         from decimal import Decimal
-        charge = int(Decimal(data.get('total_amount')) * 100)
+        charge = int(Decimal(data.get('total_amount')))
         print("[{}] succeed user: {}, charge: {} order: {}".format(time_str(timestamp()), username, charge, trade_no))
         u = User.find_one(username=username)
         if trade_no not in u.charge_orders:

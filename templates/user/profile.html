@@ -24,7 +24,7 @@
             <form method=POST enctype=multipart/form-data action="{{ url_for('user.charge') }}" >
                 <div >当前点数: {{ u.point }}</div>
                 <label for="id-charge">充值点数</label>
-                <input class="form-control" name=charge id=id-charge>
+                <input class="form-control" name=charge id=id-charge type="number" min="1">
                 <hr>
                 <button class="btn btn-success btn-block">充值</button>
             </form>
