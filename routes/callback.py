@@ -30,7 +30,8 @@ def ali():
     success = alipay.verify(data, signature)
     if success and data["trade_status"] in ("TRADE_SUCCESS", "TRADE_FINISHED"):
         username = data.get('body')
-        charge = int(data.get('total_amount')) * 100
+        from decimal import Decimal
+        charge = int(Decimal(data.get('total_amount')) * 100)
         print("trade succeed user: {}, charge: {}".format(username, charge))
         u = User.find(username=username)
         u.point += charge

@@ -324,7 +324,7 @@ def charge():
         total_amount=form.get('charge'),
         body=cu.username,
         subject='MTK财经云充值',
-        return_url=app.config['ALIPAY_CALLBACK_URL'],
+        return_url=app.config['ALIPAY_RETURN_URL'],
     )
     url = 'https://openapi.alipay.com/gateway.do?' + order_string
     return redirect(url)
