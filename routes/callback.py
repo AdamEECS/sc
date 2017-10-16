@@ -9,8 +9,8 @@ q = qiniu.Auth(key.qiniu_access_key, key.qiniu_secret_key)
 main = Blueprint('callback', __name__)
 
 
-@main.route('/', methods=["GET", "POST"])
-def hello_world():
+@main.route('/ali', methods=["GET", "POST"])
+def ali():
     data = request.form.to_dict()
     signature = data.pop("sign")
 
@@ -34,6 +34,7 @@ def hello_world():
         print("trade succeed user: {}, charge: {}".format(username, charge))
         u = User.find(username=username)
         u.point += charge
+        u.save()
 
 
 @main.route('/all', methods=['POST'])

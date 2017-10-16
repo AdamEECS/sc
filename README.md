@@ -69,5 +69,5 @@ pip3 install pingpp
 3，安装支付宝接口
 
 ```
-pip install python-alipay-sdk --upgrade
+pip3 install python-alipay-sdk --upgrade
 ```
