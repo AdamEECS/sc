@@ -202,9 +202,8 @@ def user(id):
 @main.route('/user/delete/<int:id>')
 @admin_required
 def user_delete(id):
-    # m = User.get(id)
-    # m.delete()
-    # TODO 先不让删
+    m = User.get(id)
+    m.delete()
     return redirect(url_for('admin.users'))
 
 
