@@ -34,7 +34,7 @@
                 <td>{{ m.uuid }}</td>
                 <td>{{ m.role }}</td>
                 <td>
-                    <a href="{{ url_for('admin.user_delete', id=m.id) }}">删除</a>
+                    <a href="{{ url_for('admin.user_delete', uuid=m.uuid) }}">删除</a>
                 </td>
             </tr>
             {% endif %}

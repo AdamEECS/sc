@@ -199,14 +199,11 @@ def user(id):
     return render_template('admin/user.html', m=m, ps=ps, u=u)
 
 
-@main.route('/user/delete/<int:id>')
+@main.route('/user/delete/<str:uuid>')
 @admin_required
-def user_delete(id):
-    # m = User.get(id)
-    # m.delete()
-    ms = User.find(id=id)
-    for m in ms:
-        m.delete()
+def user_delete(uuid):
+    m = User.get_uuid(uuid)
+    m.delete()
     return redirect(url_for('admin.users'))
 
 
