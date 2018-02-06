@@ -245,10 +245,15 @@ def connect_db(ip):
     db_uri = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8'.format(s.username, s.password, s.ip, s.dbname)
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
-    engine = create_engine(db_uri, echo=True)
-    Se = sessionmaker(bind=engine)
-    se = Se()
-    return se
+    from sqlalchemy.exc import OperationalError
+    try:
+        engine = create_engine(db_uri, echo=True)
+        Se = sessionmaker(bind=engine)
+        se = Se()
+        return se
+    except OperationalError as e:
+        flash('数据库拒绝链接，请联系数据库管理员：{}'.format(e), 'error')
+        return redirect(url_for('admin.servers'))
 
 
 @main.route('/servers')

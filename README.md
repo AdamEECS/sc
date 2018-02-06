@@ -72,3 +72,9 @@ pip3 install pingpp
 ```
 pip3 install python-alipay-sdk --upgrade
 ```
+
+update
+
+```
+pip3 install pymysql
+```
