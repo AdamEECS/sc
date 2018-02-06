@@ -4,7 +4,7 @@
         <h1>WhiteLabels Manage</h1>
     </div>
     <form class="navbar-form " action="{{ url_for('admin.wls_link') }}" method="post">
-        <select name="ip" id="">
+        <select name="ip" class="form-control" >
             {% for db in dbs %}
             <option value="{{ db.ip }}">{{ db.ip }}</option>
             {% endfor %}

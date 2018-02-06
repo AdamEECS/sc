@@ -5,6 +5,7 @@ from models.order import Order
 from models.user import User
 from models.server import Server
 from models.wl import Wl
+from models.notice import Notice
 from flask import current_app as app
 
 # import qiniu
@@ -237,6 +238,19 @@ def user_new():
 
 
 # ------------------------- 白标管理 --------------------------
+def connect_db(ip):
+    if ip is None:
+        return redirect(url_for('admin.servers'))
+    s = Server.find_one(ip=ip)
+    db_uri = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8'.format(s.username, s.password, s.ip, s.dbname)
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
+    engine = create_engine(db_uri, echo=True)
+    Se = sessionmaker(bind=engine)
+    se = Se()
+    return se
+
+
 @main.route('/servers')
 @manager_required
 def servers():
@@ -269,18 +283,8 @@ def wls_link():
     dbs = Server.all()
     form = request.form
     ip = form.get('ip', None)
-    if ip is None:
-        return redirect(url_for('admin.servers'))
-    s = Server.find_one(ip=ip)
-    db_uri = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8'.format(s.username, s.password, s.ip, s.dbname)
-    from sqlalchemy import create_engine
-    from sqlalchemy.orm import sessionmaker
-    engine = create_engine(db_uri, echo=True)
-    Se = sessionmaker(bind=engine)
-    se = Se()
+    se = connect_db(ip)
     ms = se.query(Wl).all()
-    for m in ms:
-        print(m)
     return render_template('admin/wls.html', dbs=dbs, u=u, ms=ms)
 
 
@@ -288,8 +292,39 @@ def wls_link():
 @manager_required
 def notices():
     u = current_user()
-    ms = User.all()
-    return render_template('admin/users.html', ms=ms, u=u)
+    dbs = Server.all()
+    return render_template('admin/notices.html', dbs=dbs, u=u)
+
+
+@main.route('/notices', methods=['POST'])
+@manager_required
+def notices_link():
+    u = current_user()
+    dbs = Server.all()
+    form = request.form
+    ip = form.get('ip', None)
+    se = connect_db(ip)
+    ms = se.query(Notice).all()
+    wls_all = se.query(Wl).all()
+    wls_simple = []
+    counter = []
+    for i in wls_all:
+        if i.mt4_id not in counter:
+            wls_simple.append(i)
+            counter.append(i.mt4_id)
+    return render_template('admin/notices.html', dbs=dbs, u=u, ms=ms, wls=wls_simple, ip=ip)
+
+
+@main.route('/notices/new', methods=['POST'])
+@manager_required
+def notice_new():
+    form = request.form
+    ip = form.get('ip', None)
+    se = connect_db(ip)
+    n = Notice.new(form)
+    se.add(n)
+    se.commit()
+    return redirect(url_for('admin.notices_link', _method='POST', ip=form.get('ip')), code=307)
 
 
 # ------------------------- 订单管理 --------------------------
