@@ -1,9 +1,30 @@
 from usr_util.utils import *
+from flask_sqlalchemy import SQLAlchemy
 
 # mongodb config
 from config import config
 
 db = config.db
+db_sql = SQLAlchemy()
+
+
+def timestamp():
+    return int(time.time())
+
+
+class ModelMixin(object):
+    def __repr__(self):
+        class_name = self.__class__.__name__
+        properties = ('{0} = {1}'.format(k, v) for k, v in self.__dict__.items())
+        return '<{0}: \n  {1}\n>'.format(class_name, '\n  '.join(properties))
+
+    # def save(self):
+    #     db_sql.session.add(self)
+    #     db_sql.session.commit()
+    #
+    # def delete(self):
+    #     db_sql.session.delete(self)
+    #     db_sql.session.commit()
 
 
 def next_id(name):

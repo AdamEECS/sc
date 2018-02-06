@@ -3,6 +3,8 @@ from models.category import Category
 from models.product import Product
 from models.order import Order
 from models.user import User
+from models.server import Server
+from models.wl import Wl
 from flask import current_app as app
 
 # import qiniu
@@ -234,6 +236,62 @@ def user_new():
     return redirect(url_for('admin.users'))
 
 
+# ------------------------- 白标管理 --------------------------
+@main.route('/servers')
+@manager_required
+def servers():
+    u = current_user()
+    ms = Server.all()
+    return render_template('admin/servers.html', ms=ms, u=u)
+
+
+@main.route('/server/new', methods=['POST'])
+@manager_required
+def server_new():
+    form = request.form
+    # print(form)
+    Server.new(form)
+    return redirect(url_for('admin.servers'))
+
+
+@main.route('/wls')
+@manager_required
+def wls():
+    u = current_user()
+    dbs = Server.all()
+    return render_template('admin/wls.html', dbs=dbs, u=u)
+
+
+@main.route('/wls', methods=['POST'])
+@manager_required
+def wls_link():
+    u = current_user()
+    dbs = Server.all()
+    form = request.form
+    ip = form.get('ip', None)
+    if ip is None:
+        return redirect(url_for('admin.servers'))
+    s = Server.find_one(ip=ip)
+    db_uri = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8'.format(s.username, s.password, s.ip, s.dbname)
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
+    engine = create_engine(db_uri, echo=True)
+    Se = sessionmaker(bind=engine)
+    se = Se()
+    ms = se.query(Wl).all()
+    for m in ms:
+        print(m)
+    return render_template('admin/wls.html', dbs=dbs, u=u, ms=ms)
+
+
+@main.route('/notices')
+@manager_required
+def notices():
+    u = current_user()
+    ms = User.all()
+    return render_template('admin/users.html', ms=ms, u=u)
+
+
 # ------------------------- 订单管理 --------------------------
 @main.route('/orders')
 @admin_required
@@ -277,7 +335,6 @@ def order_finish(orderNo):
     o = Order.find_one(orderNo=orderNo)
     o.finish()
     return redirect(url_for('admin.orders'))
-
 
 # # 管理员初始化
 # @main.route('/root')
