@@ -203,7 +203,8 @@ def user(id):
 @admin_required
 def user_delete(uuid):
     m = User.get_uuid(uuid)
-    m.delete()
+    m.deleted = True
+    m.save()
     return redirect(url_for('admin.users'))
 
 
