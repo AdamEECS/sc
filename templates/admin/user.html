@@ -18,6 +18,17 @@
                 <button class="btn btn-success btn-block">修改基本信息</button>
             </form>
         </div>
+        {% if u.role=='admin' %}
+        <h3>身份权限</h3>
+        <div class="panel-profile">
+            <form method=POST enctype=multipart/form-data action="{{ url_for('admin.user_update_role', id=m.id) }}">
+                <label for="id-name">权限</label>
+                <input class="form-control" name="role" id=id-name value="{{ m.role }}">
+                <hr>
+                <button class="btn btn-warning btn-block">修改身份权限</button>
+            </form>
+        </div>
+        {% endif %}
     </div>
     <div class="col-xs-12 col-sm-6">
         <h3>邮箱信息</h3>

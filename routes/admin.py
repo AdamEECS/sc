@@ -171,7 +171,7 @@ def product_delete(id):
 
 # ------------------------- 用户管理 --------------------------
 @main.route('/users')
-@admin_required
+@manager_required
 def users():
     u = current_user()
     ms = User.all()
@@ -179,7 +179,7 @@ def users():
 
 
 @main.route('/users', methods=['POST'])
-@admin_required
+@manager_required
 def users_search():
     u = current_user()
     form = request.form
@@ -188,7 +188,7 @@ def users_search():
 
 
 @main.route('/user/<int:id>')
-@admin_required
+@manager_required
 def user(id):
     u = current_user()
     m = User.get(id)
@@ -206,7 +206,7 @@ def user_delete(id):
 
 
 @main.route('/user/update/<int:id>', methods=['POST'])
-@admin_required
+@manager_required
 def user_update(id):
     m = User.get(id)
     form = request.form
@@ -214,8 +214,17 @@ def user_update(id):
     return redirect(url_for('admin.user', id=m.id))
 
 
-@main.route('/user/new', methods=['POST'])
+@main.route('/user/update/role/<int:id>', methods=['POST'])
 @admin_required
+def user_update_role(id):
+    m = User.get(id)
+    form = request.form
+    m.update_user_role(form)
+    return redirect(url_for('admin.user', id=m.id))
+
+
+@main.route('/user/new', methods=['POST'])
+@manager_required
 def user_new():
     form = request.form
     status, msgs = User.valid(form)

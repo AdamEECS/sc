@@ -17,6 +17,7 @@ class Role(Enum):
     root = 1
     admin = 2
     client = 3
+    manager = 4
 
 
 bool_dict = {
@@ -67,6 +68,13 @@ class User(MongoModel):
         self.update(form)
         if len(password) > 0 and password == re_password:
             self.password = self.salted_password(password)
+        self.save()
+        return self
+
+    def update_user_role(self, form):
+        form = form.to_dict()
+        role = form.get('role', 'client')
+        self.role = role
         self.save()
         return self
 
@@ -134,6 +142,9 @@ class User(MongoModel):
 
     def is_admin(self):
         return self.role == 'admin'
+
+    def is_manager(self):
+        return self.role == 'manager' or self.is_admin()
 
     def salted_password(self, password):
         salt = self.salt

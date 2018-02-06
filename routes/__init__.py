@@ -42,6 +42,18 @@ def admin_required(f):
     return function
 
 
+def manager_required(f):
+    @wraps(f)
+    def function(*args, **kwargs):
+        if current_user() is None:
+            return redirect(url_for('user.index'))
+        if not current_user().is_manager():
+            return redirect(url_for('user.index'))
+        return f(*args, **kwargs)
+
+    return function
+
+
 def cart_not_empty_required(f):
     @wraps(f)
     def function(*args, **kwargs):

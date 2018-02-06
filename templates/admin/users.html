@@ -25,6 +25,7 @@
         </thead>
         <tbody>
         {% for m in ms %}
+            {% if m.role != 'admin' or u.role == 'admin' %}
             <tr data-id={{ m.id }}>
                 <td>
                     <a href="{{ url_for('admin.user', id=m.id) }}">{{ m.username }}</a>
@@ -36,6 +37,7 @@
                     <a href="{{ url_for('admin.user_delete', id=m.id) }}">删除</a>
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
