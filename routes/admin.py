@@ -199,7 +199,7 @@ def user(id):
     return render_template('admin/user.html', m=m, ps=ps, u=u)
 
 
-@main.route('/user/delete/<str:uuid>')
+@main.route('/user/delete/<uuid>')
 @admin_required
 def user_delete(uuid):
     m = User.get_uuid(uuid)
