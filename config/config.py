@@ -4,6 +4,7 @@ import os
 config_dict = dict(
     USER_AVATAR_DIR='static/user_avatar/',
     PRODUCT_PIC_DIR='static/product_pic/',
+    UPLOAD_FILE_DIR='static/files/',
     PRODUCT_PIC_EXT='png',
     CDN_URL='http://opguqe876.bkt.clouddn.com/',
     CDN_USER_AVATAR_DIR='/user_avatar/',

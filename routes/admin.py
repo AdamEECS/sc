@@ -6,6 +6,7 @@ from models.user import User
 from models.server import Server
 from models.wl import Wl, WlLocal
 from models.notice import Notice
+from models.bill import Bill
 from flask import current_app as app
 
 # import qiniu
@@ -299,6 +300,25 @@ def wl_toggle(mt4_id):
         m.status = 2
     m.save()
     return redirect(url_for('admin.wls'))
+
+
+@main.route('/wl/<mt4_id>/detail')
+@manager_required
+def wl_detail(mt4_id):
+    u = current_user()
+    m = WlLocal.find_one(mt4_id=mt4_id)
+    m.bills = Bill.find(mt4_id=mt4_id)
+    return render_template('admin/wl_detail.html', u=u, m=m)
+
+
+@main.route('/bill/new', methods=['POST'])
+@manager_required
+def bill_new():
+    form = request.form
+    mt4_id = form.get('mt4_id')
+    file = request.files['file']
+    Bill.new(form, file=file)
+    return redirect(url_for('admin.wl_detail', mt4_id=mt4_id))
 
 
 @main.route('/notices')

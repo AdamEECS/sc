@@ -28,7 +28,7 @@
         <tbody>
         {% for m in ms %}
             <tr data-id={{ m.mt4_id }}>
-                <td>{{ m.mt4_id }}</td>
+                <td><a href="{{ url_for('admin.wl_detail', mt4_id=m.mt4_id) }}">{{ m.mt4_id }}</a></td>
                 <td>{{ m.name }}</td>
                 <td>{% if m.status == 2 %}关闭{% elif m.status == 1 %}开启{% else %}待处理{% endif %}</td>
                 <td><a href="{{ url_for('admin.wl_toggle', mt4_id=m.mt4_id) }}">开启/关闭</a></td>
