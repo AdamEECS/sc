@@ -33,7 +33,7 @@
                 <td>{{ b.amount }}</td>
                 <td><a href="{{ b.url }}" target="_blank">{{ b.file }}</a></td>
 {#                <td>{{ b.content }}</td>#}
-                <td>{{ b.status }}</td>
+                <td>{{ b.status|pay_status }}</td>
             </tr>
         {% endfor %}
         </tbody>
