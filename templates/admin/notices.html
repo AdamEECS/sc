@@ -12,11 +12,7 @@
         <button type="submit" class="btn btn-primary">链接数据库</button>
     </form>
     <form class="navbar-form " action="{{ url_for('admin.notice_new') }}" method="post">
-        白标 <select name="mt4_id" class="form-control" >
-            {% for wl in wls %}
-            <option value="{{ wl.mt4_id }}">{{ wl.mt4_id }}</option>
-            {% endfor %}
-        </select>
+        MT4ID <input class="form-control" type="text" name="mt4_id">
         标题 <input class="form-control" type="text" name="title">
         作者 <input class="form-control" type="text" name="author">
         <br><br>

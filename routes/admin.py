@@ -241,20 +241,23 @@ def user_new():
 # ------------------------- 白标管理 --------------------------
 def connect_db(ip):
     if ip is None:
-        return redirect(url_for('admin.servers'))
+        return
     s = Server.find_one(ip=ip)
+    if s is None:
+        flash('请先链接到数据库', 'warning')
+        return
     db_uri = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8'.format(s.username, s.password, s.ip, s.dbname)
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
     from sqlalchemy.exc import OperationalError
     try:
-        engine = create_engine(db_uri, echo=True)
+        engine = create_engine(db_uri)
         Se = sessionmaker(bind=engine)
         se = Se()
         return se
     except OperationalError as e:
-        flash('数据库拒绝链接，请联系数据库管理员：{}'.format(e), 'error')
-        return redirect(url_for('admin.servers'))
+        flash('数据库拒绝链接，请联系数据库管理员：{}'.format(e), 'danger')
+        return
 
 
 @main.route('/servers')
@@ -354,10 +357,12 @@ def notice_new():
     form = request.form
     ip = form.get('ip', None)
     se = connect_db(ip)
-    n = Notice.new(form)
-    se.add(n)
-    se.commit()
-    return redirect(url_for('admin.notices_link', _method='POST', ip=form.get('ip')), code=307)
+    if se is not None:
+        n = Notice.new(form)
+        se.add(n)
+        se.commit()
+        return redirect(url_for('admin.notices_link', _method='POST', ip=form.get('ip')), code=307)
+    return redirect(url_for('admin.notices'))
 
 
 # ------------------------- 订单管理 --------------------------
