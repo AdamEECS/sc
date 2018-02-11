@@ -30,6 +30,14 @@ class Bill(MongoModel):
         m.save()
         return m
 
+    @classmethod
+    def find(cls, **kwargs):
+        ms = super().find(**kwargs)
+        ms.reverse()
+        for m in ms:
+            m.amount_point = round(m.amount * 6.55)
+        return ms
+
     @property
     def url(self):
         from flask import url_for

@@ -10,8 +10,8 @@
         <br>
         文件 <input type="file" class="form-control" name="file">（请避免文件名重复）
         <br>
-        内容 <textarea class="form-control" name="content" id="" cols="80" rows="3"></textarea>
-        <br>
+{#        内容 <textarea class="form-control" name="content" id="" cols="80" rows="3"></textarea>#}
+{#        <br>#}
         <input type="text" name="mt4_id" value="{{ m.mt4_id }}" hidden>
         <button type="submit" class="btn btn-primary">发布账单</button>
     </form>
@@ -22,7 +22,7 @@
             <th class="th-col-2">标题</th>
             <th class="th-col-2">金额</th>
             <th class="th-col-2">文件</th>
-            <th class="th-col-2">内容</th>
+{#            <th class="th-col-2">内容</th>#}
             <th class="th-col-2">状态</th>
         </tr>
         </thead>
@@ -31,8 +31,8 @@
             <tr >
                 <td>{{ b.title }}</td>
                 <td>{{ b.amount }}</td>
-                <td><a href="{{ b.url }}">{{ b.file }}</a></td>
-                <td>{{ b.content }}</td>
+                <td><a href="{{ b.url }}" target="_blank">{{ b.file }}</a></td>
+{#                <td>{{ b.content }}</td>#}
                 <td>{{ b.status }}</td>
             </tr>
         {% endfor %}

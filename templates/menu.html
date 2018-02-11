@@ -60,8 +60,9 @@
                             欢迎，{{ u.username }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a class="" href="{{ url_for('user.profile') }}">个人资料</a></li>
-                            <li><a class="" href="{{ url_for('user.orders') }}">我的订单</a></li>
-                            <li><a class="" href="{{ url_for('user.product') }}">已购产品</a></li>
+                            <li><a class="" href="{{ url_for('user.bills') }}">我的账单</a></li>
+{#                            <li><a class="" href="{{ url_for('user.orders') }}">我的订单</a></li>#}
+{#                            <li><a class="" href="{{ url_for('user.product') }}">已购产品</a></li>#}
                         </ul>
                     </li>
                     <li><a class="block-center" href="{{ url_for('user.cart') }}">购物车

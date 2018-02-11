@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="">
+        <h1>账单</h1>
+        <h2>点数余额：{{ u.point }} <a href="{{ url_for('user.profile') }}">充值</a></h2>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th class="th-col-2">标题</th>
+            <th class="th-col-1">金额</th>
+            <th class="th-col-1">所需点数</th>
+            <th class="th-col-2">文件</th>
+            <th class="th-col-1">操作</th>
+            <th class="th-col-1">状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for b in m.bills %}
+            <tr >
+                <td>{{ b.title }}</td>
+                <td>{{ b.amount }}</td>
+                <td>{{ b.amount_point }}</td>
+                <td><a href="{{ b.url }}" target="_blank">{{ b.file }}</a></td>
+                <td>
+                    {% if b.status == 0 %}
+                    <a href="{{ url_for('user.bill_pay', uuid=b.uuid) }}">支付</a>
+                    {% endif %}
+                </td>
+                <td>{{ b.status|pay_status }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

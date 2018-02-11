@@ -32,6 +32,7 @@ class User(MongoModel):
         fields = [
             ('username', str, ''),
             ('nickname', str, ''),
+            ('mt4_id', str, ''),
             ('email', str, ''),
             ('email_verify', bool, False),
             ('email_token', str, ''),

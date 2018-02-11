@@ -2,6 +2,8 @@ from routes import *
 from models.user import User
 from models.order import Order
 from models.brought import Brought
+from models.wl import WlLocal
+from models.bill import Bill
 from decimal import Decimal
 from flask import current_app as app
 
@@ -123,6 +125,31 @@ def product():
     cu = current_user()
     os = Brought.get_by_user(cu.uuid)
     return render_template('user/product.html', u=cu, os=os)
+
+
+@main.route('/bills')
+@login_required
+def bills():
+    cu = current_user()
+    m = WlLocal.find_one(mt4_id=cu.mt4_id)
+    m.bills = Bill.find(mt4_id=cu.mt4_id)
+    return render_template('user/bills.html', u=cu, m=m)
+
+
+@main.route('/bill/<uuid>/pay')
+@login_required
+def bill_pay(uuid):
+    cu = current_user()
+    b = Bill.find_one(uuid=uuid)
+    if b.amount_point > cu.point:
+        flash('点数不足，请充值', 'warning')
+        return redirect(url_for('user.profile'))
+    cu.point -= b.amount_point
+    cu.save()
+    b.status = 1
+    b.save()
+    flash('支付成功', 'success')
+    return redirect(url_for('user.bills'))
 
 
 @main.route('/profile')

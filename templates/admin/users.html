@@ -7,6 +7,7 @@
     <form class="navbar-form " action="{{ url_for('admin.user_new') }}" method="post">
         <input type="text" class="form-control" name="username" placeholder="用户名">
         <input type="text" class="form-control" name="password" placeholder="初始密码">
+        <input type="text" class="form-control" name="mt4_id" placeholder="MT4ID">
         <button type="submit" class="btn btn-primary">创建新用户</button>
     </form>
     <form class="navbar-form " action="{{ url_for('admin.users') }}" method="post">
@@ -18,6 +19,7 @@
         <thead>
         <tr>
             <th class="th-col-2">用户</th>
+            <th class="th-col-2">MT4ID</th>
             <th class="th-col-2">uuid</th>
             <th class="th-col-2">权限</th>
             <th class="th-col-2">操作</th>
@@ -30,7 +32,7 @@
                 <td>
                     <a href="{{ url_for('admin.user', id=m.id) }}">{{ m.username }}</a>
                 </td>
-
+                <td>{{ m.mt4_id }}</td>
                 <td>{{ m.uuid }}</td>
                 <td>{{ m.role }}</td>
                 <td>

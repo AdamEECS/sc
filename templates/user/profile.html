@@ -2,21 +2,6 @@
     <div>
         <h1>Profile</h1>
     </div>
-    <div class="panel panel-default panel-profile">
-        <div class="panel-heading">用户名及密码</div>
-        <div class="panel-body">
-            <form method=POST enctype=multipart/form-data action="{{ url_for('user.profile_update') }}">
-                <label for="id-name">用户名</label>
-                <input class="form-control" name="username" id=id-name value="{{ u.username }}">
-                <label for="id-password">修改密码</label>
-                <input class="form-control" name=password id=id-password>
-                <label for="id-re-password">重复密码</label>
-                <input class="form-control" name=re_password id=id-re-password>
-                <hr>
-                <button class="btn btn-success btn-block">更新</button>
-            </form>
-        </div>
-    </div>
 
     <div class="panel panel-default panel-profile">
         <div class="panel-heading">账户点数</div>
@@ -27,6 +12,22 @@
                 <input class="form-control" name=charge id=id-charge type="number" min="1">
                 <hr>
                 <button class="btn btn-success btn-block">充值</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-default panel-profile">
+        <div class="panel-heading">用户名及密码</div>
+        <div class="panel-body">
+            <form method=POST enctype=multipart/form-data action="{{ url_for('user.profile_update') }}">
+                <label for="id-name">用户名</label>
+                <input class="form-control" readonly name="username" id=id-name value="{{ u.username }}">
+                <label for="id-password">修改密码</label>
+                <input class="form-control" name=password id=id-password>
+                <label for="id-re-password">重复密码</label>
+                <input class="form-control" name=re_password id=id-re-password>
+                <hr>
+                <button class="btn btn-success btn-block">更新</button>
             </form>
         </div>
     </div>
