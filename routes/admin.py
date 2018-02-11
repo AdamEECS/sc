@@ -4,7 +4,7 @@ from models.product import Product
 from models.order import Order
 from models.user import User
 from models.server import Server
-from models.wl import Wl
+from models.wl import Wl, WlLocal
 from models.notice import Notice
 from flask import current_app as app
 
@@ -277,20 +277,28 @@ def server_new():
 @manager_required
 def wls():
     u = current_user()
-    dbs = Server.all()
-    return render_template('admin/wls.html', dbs=dbs, u=u)
+    ms = WlLocal.all()
+    return render_template('admin/wls.html', u=u, ms=ms)
 
 
-@main.route('/wls', methods=['POST'])
+@main.route('/wl/new', methods=['POST'])
 @manager_required
-def wls_link():
-    u = current_user()
-    dbs = Server.all()
+def wl_new():
     form = request.form
-    ip = form.get('ip', None)
-    se = connect_db(ip)
-    ms = se.query(Wl).all()
-    return render_template('admin/wls.html', dbs=dbs, u=u, ms=ms)
+    WlLocal.new(form)
+    return redirect(url_for('admin.wls'))
+
+
+@main.route('/wl/<mt4_id>/status/toggle')
+@manager_required
+def wl_toggle(mt4_id):
+    m = WlLocal.find_one(mt4_id=mt4_id)
+    if m.status == 2:
+        m.status = 1
+    else:
+        m.status = 2
+    m.save()
+    return redirect(url_for('admin.wls'))
 
 
 @main.route('/notices')
