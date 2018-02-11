@@ -227,6 +227,16 @@ def user_update_role(id):
     return redirect(url_for('admin.user', id=m.id))
 
 
+@main.route('/user/<int:id>/point', methods=['POST'])
+@manager_required
+def user_point_add(id):
+    m = User.get(id)
+    form = request.form
+    m.point += int(form.get('point', 0))
+    m.save()
+    return redirect(url_for('admin.user', id=m.id))
+
+
 @main.route('/user/new', methods=['POST'])
 @manager_required
 def user_new():
@@ -332,23 +342,23 @@ def notices():
     return render_template('admin/notices.html', dbs=dbs, u=u)
 
 
-@main.route('/notices', methods=['POST'])
+@main.route('/notices_link', methods=['GET'])
 @manager_required
 def notices_link():
     u = current_user()
     dbs = Server.all()
-    form = request.form
+    form = request.args
     ip = form.get('ip', None)
     se = connect_db(ip)
     ms = se.query(Notice).all()
-    wls_all = se.query(Wl).all()
-    wls_simple = []
-    counter = []
-    for i in wls_all:
-        if i.mt4_id not in counter:
-            wls_simple.append(i)
-            counter.append(i.mt4_id)
-    return render_template('admin/notices.html', dbs=dbs, u=u, ms=ms, wls=wls_simple, ip=ip)
+    # wls_all = se.query(Wl).all()
+    # wls_simple = []
+    # counter = []
+    # for i in wls_all:
+    #     if i.mt4_id not in counter:
+    #         wls_simple.append(i)
+    #         counter.append(i.mt4_id)
+    return render_template('admin/notices.html', dbs=dbs, u=u, ms=ms, ip=ip)
 
 
 @main.route('/notices/new', methods=['POST'])
@@ -361,7 +371,19 @@ def notice_new():
         n = Notice.new(form)
         se.add(n)
         se.commit()
-        return redirect(url_for('admin.notices_link', _method='POST', ip=form.get('ip')), code=307)
+        return redirect(url_for('admin.notices_link', _method='GET', ip=form.get('ip')))
+    return redirect(url_for('admin.notices'))
+
+
+@main.route('/notice/<ip>/<id>/del')
+@manager_required
+def notice_del(ip, id):
+    se = connect_db(ip)
+    if se is not None:
+        n = se.query(Notice).get(id)
+        se.delete(n)
+        se.commit()
+        return redirect(url_for('admin.notices_link', _method='GET', ip=ip))
     return redirect(url_for('admin.notices'))
 
 
