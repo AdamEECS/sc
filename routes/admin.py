@@ -351,6 +351,7 @@ def notices_link():
     ip = form.get('ip', None)
     se = connect_db(ip)
     ms = se.query(Notice).all()
+    ms.reverse()
     # wls_all = se.query(Wl).all()
     # wls_simple = []
     # counter = []

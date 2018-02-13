@@ -14,7 +14,7 @@
     <form class="navbar-form " action="{{ url_for('admin.notice_new') }}" method="post">
         MT4ID <input class="form-control" type="text" name="mt4_id">
         标题 <input class="form-control" type="text" name="title">
-        作者 <input class="form-control" type="text" name="author">
+{#        作者 <input class="form-control" type="text" name="author">#}
         <br><br>
         内容 <textarea class="form-control" name="content" id="" cols="80" rows="10"></textarea>
         <input type="text" name="ip" value="{{ ip }}" hidden>
@@ -25,8 +25,9 @@
         <tr>
             <th class="th-col-1">mt4_id</th>
             <th class="th-col-2">标题</th>
-            <th class="th-col-1">作者</th>
+{#            <th class="th-col-1">作者</th>#}
             <th class="th-col-4">内容</th>
+            <th class="th-col-2">服务器时间</th>
             <th class="th-col-1">操作</th>
         </tr>
         </thead>
@@ -35,8 +36,9 @@
             <tr data-id={{ m.id }}>
                 <td>{{ m.mt4_id }}</td>
                 <td>{{ m.title }}</td>
-                <td>{{ m.author }}</td>
+{#                <td>{{ m.author }}</td>#}
                 <td>{{ m.content }}</td>
+                <td>{{ m.created_at }}</td>
                 <td><a href="{{ url_for('admin.notice_del', ip=ip, id=m.id) }}">删除</a></td>
             </tr>
         {% endfor %}
