@@ -264,6 +264,7 @@ def connect_db(ip):
         engine = create_engine(db_uri)
         Se = sessionmaker(bind=engine)
         se = Se()
+        print(se, se.is_active)
         return se
     except OperationalError as e:
         flash('数据库拒绝链接，请联系数据库管理员：{}'.format(e), 'danger')
