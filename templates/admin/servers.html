@@ -19,6 +19,7 @@
             <th class="th-col-2">数据库名</th>
             <th class="th-col-2">用户名</th>
             <th class="th-col-2">备注</th>
+            <th class="th-col-2">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
                 <td>{{ m.dbname }}</td>
                 <td>{{ m.username }}</td>
                 <td>{{ m.comment }}</td>
+                <td><a href="{{ url_for('admin.server_del', ip=m.ip) }}">删除</a></td>
             </tr>
         {% endfor %}
         </tbody>

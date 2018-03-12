@@ -287,6 +287,16 @@ def server_new():
     return redirect(url_for('admin.servers'))
 
 
+@main.route('/server/del', methods=['GET'])
+@manager_required
+def server_del():
+    ip = request.args.get('ip')
+    # print(form)
+    s = Server.find_one(ip=ip)
+    s.delete()
+    return redirect(url_for('admin.servers'))
+
+
 @main.route('/wls')
 @manager_required
 def wls():
