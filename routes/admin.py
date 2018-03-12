@@ -349,9 +349,13 @@ def notices_link():
     dbs = Server.all()
     form = request.args
     ip = form.get('ip', None)
-    se = connect_db(ip)
-    ms = se.query(Notice).all()
-    ms.reverse()
+    try:
+        se = connect_db(ip)
+        ms = se.query(Notice).all()
+        ms.reverse()
+    except Exception as e:
+        ms = []
+        flash('数据库拒绝链接，请联系数据库管理员：{}'.format(e), 'danger')
     # wls_all = se.query(Wl).all()
     # wls_simple = []
     # counter = []
