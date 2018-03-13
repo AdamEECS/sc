@@ -262,10 +262,10 @@ def connect_db(ip):
     from sqlalchemy.exc import OperationalError
     try:
         engine = create_engine(db_uri)
-        print(time_str(timestamp()), 'engine', engine)
+        # print(time_str(timestamp()), 'engine', engine)
         Se = sessionmaker(bind=engine)
         se = Se()
-        print(time_str(timestamp()), se, se.is_active)
+        # print(time_str(timestamp()), se, se.is_active)
         return se
     except OperationalError as e:
         flash('数据库拒绝链接，请联系数据库管理员：{}'.format(e), 'danger')
@@ -384,6 +384,7 @@ def notice_new():
     form = request.form
     ip = form.get('ip', None)
     se = connect_db(ip)
+    print(form)
     if se is not None:
         n = Notice.new(form)
         se.add(n)

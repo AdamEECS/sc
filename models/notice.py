@@ -14,6 +14,8 @@ class Notice(Base, ModelMixin):
     mt4_id = db.Column(db.Integer)
     title = db.Column(db.String())
     status = db.Column(db.Integer)
+    istop = db.Column(db.Integer)
+    isbox = db.Column(db.Integer)
     content = db.Column(db.String())
     created_at = db.Column(db.TIMESTAMP, default=func.now())
     updated_at = db.Column(db.TIMESTAMP, default=func.now())
@@ -26,4 +28,6 @@ class Notice(Base, ModelMixin):
         m.title = form.get('title')
         m.status = 1
         m.content = form.get('content')
+        m.istop = form.get('istop', 2)
+        m.isbox = form.get('isbox', 2)
         return m
