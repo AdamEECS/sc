@@ -4,6 +4,7 @@ from models.order import Order
 from models.brought import Brought
 from models.wl import WlLocal
 from models.bill import Bill
+from models.log import Log
 from decimal import Decimal
 from flask import current_app as app
 
@@ -143,11 +144,27 @@ def bill_pay(uuid):
     b = Bill.find_one(uuid=uuid)
     if b.amount_point > cu.point:
         flash('点数不足，请充值', 'warning')
+        # d = dict(
+        #     user_id=cu.id,
+        #     user_name=cu.username,
+        #     model='user',
+        #     action='bill_pay',
+        #     content='用户尝试支付订单：{}，余额不足，支付失败'.format(b.title),
+        # )
+        # Log.new(d)
         return redirect(url_for('user.profile'))
     cu.point -= b.amount_point
     cu.save()
     b.status = 1
     b.save()
+    d = dict(
+        user_id=cu.id,
+        user_name=cu.username,
+        model='user',
+        action='bill_pay',
+        content='用户支付订单：{}，支付成功'.format(b.title),
+    )
+    Log.new(d)
     flash('支付成功', 'success')
     return redirect(url_for('user.bills'))
 
@@ -354,6 +371,14 @@ def charge():
         return_url=app.config['ALIPAY_RETURN_URL'],
     )
     url = 'https://openapi.alipay.com/gateway.do?' + order_string
+    d = dict(
+        user_id=cu.id,
+        user_name=cu.username,
+        model='user',
+        action='charge',
+        content='用户发起充值操作，点数：{}'.format(form.get('charge')),
+    )
+    Log.new(d)
     return redirect(url)
     # app_id = key.pingpp_app_id
     # pingpp.api_key = key.pingpp_api_key

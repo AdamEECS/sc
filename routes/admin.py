@@ -7,6 +7,7 @@ from models.server import Server
 from models.wl import Wl, WlLocal
 from models.notice import Notice
 from models.bill import Bill
+from models.log import Log
 from flask import current_app as app
 
 # import qiniu
@@ -234,6 +235,15 @@ def user_point_add(id):
     form = request.form
     m.point += int(form.get('point', 0))
     m.save()
+    cu = current_user()
+    d = dict(
+        user_id=cu.id,
+        user_name=cu.username,
+        model='admin',
+        action='point_add',
+        content='管理员操作用户点数，用户：{} 点数：{}'.format(m.username, form.get('point')),
+    )
+    Log.new(d)
     return redirect(url_for('admin.user', id=m.id))
 
 
@@ -341,8 +351,17 @@ def wl_detail(mt4_id):
 def bill_new():
     form = request.form
     mt4_id = form.get('mt4_id')
-    file = request.files['file']
+    file = request.files.get('file')
     Bill.new(form, file=file)
+    cu = current_user()
+    d = dict(
+        user_id=cu.id,
+        user_name=cu.username,
+        model='admin',
+        action='bill_new',
+        content='管理员创建账单，白标id：{} 标题：{}'.format(form.get('mt4_id'), form.get('title')),
+    )
+    Log.new(d)
     return redirect(url_for('admin.wl_detail', mt4_id=mt4_id))
 
 
@@ -448,6 +467,24 @@ def order_finish(orderNo):
     o = Order.find_one(orderNo=orderNo)
     o.finish()
     return redirect(url_for('admin.orders'))
+
+
+# ------------------------- 日志管理 --------------------------
+@main.route('/logs')
+@manager_required
+def logs():
+    u = current_user()
+    ms = Log.all()
+    return render_template('admin/logs.html', ms=ms, u=u)
+
+
+@main.route('/logs', methods=['POST'])
+@admin_required
+def logs_search():
+    u = current_user()
+    form = request.form
+    ms = Log.search_or(form)
+    return render_template('admin/logs.html', u=u, ms=ms)
 
 # # 管理员初始化
 # @main.route('/root')

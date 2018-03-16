@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="">
+        <h1>Log</h1>
+    </div>
+
+    <form class="navbar-form " action="{{ url_for('admin.logs') }}" method="post">
+        <input type="text" class="form-control" name="user_name" placeholder="按用户名检索">
+        <input type="text" class="form-control" name="model" placeholder="按模块检索">
+        <input type="text" class="form-control" name="action" placeholder="按动作检索">
+        <button type="submit" class="btn btn-default">Search</button>
+    </form>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th class="th-col-1">用户</th>
+            <th class="th-col-1">模块</th>
+            <th class="th-col-1">动作</th>
+            <th class="th-col-6">内容</th>
+            <th class="th-col-2">时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for m in ms %}
+            <tr data-id={{ m.id }}>
+                <td>{{ m.user_name }}</td>
+                <td>{{ m.model }}</td>
+                <td>{{ m.action }}</td>
+                <td>{{ m.content }}</td>
+                <td>{{ m.ct | time_str }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
