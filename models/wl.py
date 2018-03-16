@@ -27,3 +27,11 @@ class WlLocal(MongoModel):
         ]
         fields.extend(super()._fields())
         return fields
+
+    @classmethod
+    def valid(cls, form):
+        mt4_id = form.get('mt4_id', '')
+        if cls.find_one(mt4_id=mt4_id) is None:
+            return True
+        else:
+            return False

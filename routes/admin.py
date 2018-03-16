@@ -321,7 +321,8 @@ def wls():
 @manager_required
 def wl_new():
     form = request.form
-    WlLocal.new(form)
+    if WlLocal.valid(form):
+        WlLocal.new(form)
     return redirect(url_for('admin.wls'))
 
 
@@ -334,6 +335,14 @@ def wl_toggle(mt4_id):
     else:
         m.status = 2
     m.save()
+    return redirect(url_for('admin.wls'))
+
+
+@main.route('/wl/<uuid>/del')
+@admin_required
+def wl_del(uuid):
+    m = WlLocal.find_one(uuid=uuid)
+    m.delete()
     return redirect(url_for('admin.wls'))
 
 

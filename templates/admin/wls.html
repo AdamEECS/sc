@@ -23,6 +23,7 @@
             <th class="th-col-2">公司名</th>
             <th class="th-col-2">状态</th>
             <th class="th-col-2">控制</th>
+            <th class="th-col-2">高级</th>
         </tr>
         </thead>
         <tbody>
@@ -32,6 +33,7 @@
                 <td>{{ m.name }}</td>
                 <td>{% if m.status == 2 %}关闭{% elif m.status == 1 %}开启{% else %}待处理{% endif %}</td>
                 <td><a href="{{ url_for('admin.wl_toggle', mt4_id=m.mt4_id) }}">开启/关闭</a></td>
+                <td>{{ m.uuid }} <a href="{{ url_for('admin.wl_del', uuid=m.uuid) }}">删除</a></td>
             </tr>
         {% endfor %}
         </tbody>
