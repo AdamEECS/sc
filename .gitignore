@@ -106,3 +106,4 @@ static/product_pic/*.png
 #files
 static/files/*.jpg
 static/files/*.pdf
+static/files/*.png
