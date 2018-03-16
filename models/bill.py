@@ -23,10 +23,11 @@ class Bill(MongoModel):
     @classmethod
     def new(cls, form=None, **kwargs):
         file = kwargs.get('file')
-        path = os.path.join(abspath(dirname(__file__)), '../', app.config['UPLOAD_FILE_DIR'], file.filename)
-        file.save(path)
         m = super().new(form)
-        m.file = file.filename
+        if file is not None and file.filename != '':
+            path = os.path.join(abspath(dirname(__file__)), '../', app.config['UPLOAD_FILE_DIR'], file.filename)
+            file.save(path)
+            m.file = file.filename
         m.save()
         return m
 
