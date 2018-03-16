@@ -255,6 +255,15 @@ def user_new():
     print(status, msgs)
     if status is True:
         User.new(form)
+        cu = current_user()
+        d = dict(
+            user_id=cu.id,
+            user_name=cu.username,
+            model='admin',
+            action='user_new',
+            content='管理员创建用户，用户：{}'.format(form.get('username')),
+        )
+        Log.new(d)
     return redirect(url_for('admin.users'))
 
 
@@ -323,6 +332,15 @@ def wl_new():
     form = request.form
     if WlLocal.valid(form):
         WlLocal.new(form)
+        cu = current_user()
+        d = dict(
+            user_id=cu.id,
+            user_name=cu.username,
+            model='admin',
+            action='wl_new',
+            content='管理员添加白标，白标id：{} 公司名：{}'.format(form.get('mt4_id'), form.get('name')),
+        )
+        Log.new(d)
     return redirect(url_for('admin.wls'))
 
 
@@ -335,6 +353,15 @@ def wl_toggle(mt4_id):
     else:
         m.status = 2
     m.save()
+    cu = current_user()
+    d = dict(
+        user_id=cu.id,
+        user_name=cu.username,
+        model='admin',
+        action='wl_toggle',
+        content='管理员修改白标状态，白标id：{} 公司名：{} 修改值：{}'.format(m.mt4_id, m.name, m.status),
+    )
+    Log.new(d)
     return redirect(url_for('admin.wls'))
 
 
@@ -412,11 +439,19 @@ def notice_new():
     form = request.form
     ip = form.get('ip', None)
     se = connect_db(ip)
-    print(form)
     if se is not None:
         n = Notice.new(form)
         se.add(n)
         se.commit()
+        cu = current_user()
+        d = dict(
+            user_id=cu.id,
+            user_name=cu.username,
+            model='admin',
+            action='notice_new',
+            content='管理员发布通知，白标id：{} 标题：{}'.format(n.mt4_id, n.title),
+        )
+        Log.new(d)
         return redirect(url_for('admin.notices_link', _method='GET', ip=form.get('ip')))
     return redirect(url_for('admin.notices'))
 
