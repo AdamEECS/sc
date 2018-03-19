@@ -36,7 +36,7 @@ class Bill(MongoModel):
         ms = super().find(**kwargs)
         ms.reverse()
         for m in ms:
-            m.amount_point = round(m.amount * 6.55)
+            m.amount_point = round(m.amount * 6.45)
         return ms
 
     @property
