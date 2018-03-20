@@ -59,7 +59,7 @@ def category_update(uuid):
 
 # ------------------------- 产品管理 --------------------------
 @main.route('/product/new')
-@admin_required
+@manager_required
 def product_new_page():
     u = current_user()
     u.cates = Category.find(father_name={'$ne': ''})
@@ -67,7 +67,7 @@ def product_new_page():
 
 
 @main.route('/product/new', methods=['POST'])
-@admin_required
+@manager_required
 def product_new():
     u = current_user()
     form = request.form
@@ -80,7 +80,7 @@ def product_new():
 
 
 @main.route('/products')
-@admin_required
+@manager_required
 def products():
     u = current_user()
     ms = Product.all()
@@ -89,7 +89,7 @@ def products():
 
 
 @main.route('/products', methods=['POST'])
-@admin_required
+@manager_required
 def products_search():
     u = current_user()
     form = request.form
@@ -99,7 +99,7 @@ def products_search():
 
 
 @main.route('/product/<uuid>')
-@admin_required
+@manager_required
 def product(uuid):
     u = current_user()
     p = Product.find_one(uuid=uuid)
@@ -119,7 +119,7 @@ def product(uuid):
 
 
 @main.route('/product/<uuid>', methods=['POST'])
-@admin_required
+@manager_required
 def product_update(uuid):
     p = Product.find_one(uuid=uuid)
     form = request.form
@@ -128,7 +128,7 @@ def product_update(uuid):
 
 
 @main.route('/product/picture/url/<uuid>', methods=['POST'])
-@admin_required
+@manager_required
 def set_product_pic_url(uuid):
     p = Product.find_one(uuid=uuid)
     url = request.form.get('file_url')
@@ -137,7 +137,7 @@ def set_product_pic_url(uuid):
 
 
 @main.route('/picture/ajax/<uuid>', methods=['POST'])
-@admin_required
+@manager_required
 def ajax_pic(uuid):
     p = Product.find_one(uuid=uuid)
     qiniu_key = request.form.get('key')
@@ -146,7 +146,7 @@ def ajax_pic(uuid):
 
 
 @main.route('/product/<uuid>/pic/upload', methods=['POST'])
-@admin_required
+@manager_required
 def pic_upload(uuid):
     p = Product.find_one(uuid=uuid)
     pic = request.files['pic']
@@ -158,7 +158,7 @@ def pic_upload(uuid):
 
 
 @main.route('/product/<uuid>/pic/del/<pic>', methods=['GET'])
-@admin_required
+@manager_required
 def pic_del(uuid, pic):
     p = Product.find_one(uuid=uuid)
     p.pic_del(pic)
