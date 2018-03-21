@@ -275,7 +275,7 @@ def connect_db(ip):
     if s is None:
         flash('请先链接到数据库', 'warning')
         return
-    db_uri = 'mysql+pymysql://{}:{}@{}:3306/{}?charset=utf8'.format(s.username, s.password, s.ip, s.dbname)
+    db_uri = 'mysql+pymysql://{}:{}@{}:3308/{}?charset=utf8'.format(s.username, s.password, s.ip, s.dbname)
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
     from sqlalchemy.exc import OperationalError
