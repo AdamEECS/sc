@@ -401,6 +401,27 @@ def bill_new():
     return redirect(url_for('admin.wl_detail', mt4_id=mt4_id))
 
 
+@main.route('/bill/<mt4_id>/<uuid>/del')
+@manager_required
+def bill_del(mt4_id, uuid):
+    b = Bill.find_one(uuid=uuid)
+    if b.status != 0:
+        flash('该订单已被支付，不可删除', 'danger')
+        return redirect(url_for('admin.wl_detail', mt4_id=mt4_id))
+    else:
+        b.delete()
+        cu = current_user()
+        d = dict(
+            user_id=cu.id,
+            user_name=cu.username,
+            model='admin',
+            action='bill_del',
+            content='管理员删除账单，白标id：{} 标题：{}'.format(mt4_id, b.title),
+        )
+        Log.new(d)
+        return redirect(url_for('admin.wl_detail', mt4_id=mt4_id))
+
+
 @main.route('/notices')
 @manager_required
 def notices():

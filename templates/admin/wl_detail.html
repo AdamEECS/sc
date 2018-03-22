@@ -24,6 +24,7 @@
             <th class="th-col-2">文件</th>
 {#            <th class="th-col-2">内容</th>#}
             <th class="th-col-2">状态</th>
+            <th class="th-col-2">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -34,6 +35,7 @@
                 <td><a href="{{ b.url }}" target="_blank">{{ b.file }}</a></td>
 {#                <td>{{ b.content }}</td>#}
                 <td>{{ b.status|pay_status }}</td>
+                <td><a href="{{ url_for('admin.bill_del',mt4_id=m.mt4_id, uuid=b.uuid) }}">删除</a></td>
             </tr>
         {% endfor %}
         </tbody>
