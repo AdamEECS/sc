@@ -6,7 +6,12 @@
     <form class="navbar-form " action="{{ url_for('admin.bill_new') }}" method="post" enctype=multipart/form-data>
         标题 <input class="form-control" type="text" name="title">
         <br>
-        金额 <input class="form-control" type="number" step="1" min="0" name="amount">（美元）
+        金额 <input class="form-control" type="number" step="1" min="0" name="amount">
+        <br>
+        模式 <select name="mode" class="form-control">
+            <option value="0">金额（USD）</option>
+            <option value="1">点数（RMB）</option>
+        </select>
         <br>
         文件 <input type="file" class="form-control" name="file">（请避免文件名重复）
         <br>
@@ -20,7 +25,7 @@
         <thead>
         <tr>
             <th class="th-col-2">标题</th>
-            <th class="th-col-2">金额</th>
+            <th class="th-col-1">金额</th>
             <th class="th-col-2">文件</th>
 {#            <th class="th-col-2">内容</th>#}
             <th class="th-col-2">状态</th>

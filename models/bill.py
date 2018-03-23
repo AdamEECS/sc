@@ -13,6 +13,7 @@ class Bill(MongoModel):
             ('mt4_id', str, ''),
             ('title', str, ''),
             ('amount', int, 0),
+            ('mode', int, 0),
             ('file', str, ''),
             ('content', str, ''),
             ('status', int, 0),
@@ -36,7 +37,11 @@ class Bill(MongoModel):
         ms = super().find(**kwargs)
         ms.reverse()
         for m in ms:
-            m.amount_point = round(m.amount * 6.45)
+            if m.mode == 0:
+                m.amount_point = round(m.amount * 6.45)
+            else:
+                m.amount_point = m.amount
+                m.amount = '{}（点数）'.format(m.amount)
         return ms
 
     @property

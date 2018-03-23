@@ -13,7 +13,16 @@ def pay_status(t):
     return d.get(t, '待处理')
 
 
+def bill_mode(t):
+    d = {
+        0: '金额',
+        1: '点数',
+    }
+    return d.get(t, '待处理')
+
+
 filters = {
     'time_str': time_str,
     'pay_status': pay_status,
+    'bill_mode': bill_mode,
 }
