@@ -54,6 +54,18 @@ def manager_required(f):
     return function
 
 
+def finance_required(f):
+    @wraps(f)
+    def function(*args, **kwargs):
+        if current_user() is None:
+            return redirect(url_for('user.index'))
+        if not current_user().is_finance():
+            return redirect(url_for('user.index'))
+        return f(*args, **kwargs)
+
+    return function
+
+
 def cart_not_empty_required(f):
     @wraps(f)
     def function(*args, **kwargs):

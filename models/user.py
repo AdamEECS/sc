@@ -18,6 +18,7 @@ class Role(Enum):
     admin = 2
     client = 3
     manager = 4
+    finance = 5
 
 
 bool_dict = {
@@ -146,6 +147,9 @@ class User(MongoModel):
 
     def is_manager(self):
         return self.role == 'manager' or self.is_admin()
+
+    def is_finance(self):
+        return self.role == 'finance' or self.is_manager()
 
     def salted_password(self, password):
         salt = self.salt

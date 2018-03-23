@@ -176,7 +176,7 @@ def product_delete(id):
 
 # ------------------------- 用户管理 --------------------------
 @main.route('/users')
-@manager_required
+@finance_required
 def users():
     u = current_user()
     ms = User.all()
@@ -193,7 +193,7 @@ def users_search():
 
 
 @main.route('/user/<int:id>')
-@manager_required
+@finance_required
 def user(id):
     u = current_user()
     m = User.get(id)
@@ -319,7 +319,7 @@ def server_del():
 
 
 @main.route('/wls')
-@manager_required
+@finance_required
 def wls():
     u = current_user()
     ms = WlLocal.all()
@@ -374,7 +374,7 @@ def wl_del(uuid):
 
 
 @main.route('/wl/<mt4_id>/detail')
-@manager_required
+@finance_required
 def wl_detail(mt4_id):
     u = current_user()
     m = WlLocal.find_one(mt4_id=mt4_id)
@@ -383,7 +383,7 @@ def wl_detail(mt4_id):
 
 
 @main.route('/bill/new', methods=['POST'])
-@manager_required
+@finance_required
 def bill_new():
     form = request.form
     mt4_id = form.get('mt4_id')
@@ -402,7 +402,7 @@ def bill_new():
 
 
 @main.route('/bill/<mt4_id>/<uuid>/del')
-@manager_required
+@finance_required
 def bill_del(mt4_id, uuid):
     b = Bill.find_one(uuid=uuid)
     if b.status != 0:
