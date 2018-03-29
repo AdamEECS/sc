@@ -129,7 +129,7 @@ def product():
 
 
 @main.route('/bills')
-@login_required
+@admin_required
 def bills():
     cu = current_user()
     m = WlLocal.find_one(mt4_id=cu.mt4_id)
@@ -138,20 +138,12 @@ def bills():
 
 
 @main.route('/bill/<uuid>/pay')
-@login_required
+@admin_required
 def bill_pay(uuid):
     cu = current_user()
     b = Bill.find_one(uuid=uuid)
     if b.amount_point > cu.point:
-        flash('点数不足，请充值', 'warning')
-        # d = dict(
-        #     user_id=cu.id,
-        #     user_name=cu.username,
-        #     model='user',
-        #     action='bill_pay',
-        #     content='用户尝试支付订单：{}，余额不足，支付失败'.format(b.title),
-        # )
-        # Log.new(d)
+        flash('为支付当前账单，请充值：{}'.format(b.amount_point - cu.point), 'warning')
         return redirect(url_for('user.profile'))
     cu.point -= b.amount_point
     cu.save()
@@ -162,15 +154,68 @@ def bill_pay(uuid):
         user_name=cu.username,
         model='user',
         action='bill_pay',
-        content='用户支付订单：{}，支付成功'.format(b.title),
+        content='用户支付订单：{}，支付成功。 支付方式：扣除余额{}'.format(b.title, b.amount_point),
     )
     Log.new(d)
     flash('支付成功', 'success')
     return redirect(url_for('user.bills'))
 
 
+@main.route('/bill/<uuid>/pay_now')
+@admin_required
+def bill_pay_now(uuid):
+    cu = current_user()
+    wl = WlLocal.find_one(mt4_id=cu.mt4_id)
+    b = Bill.find_one(uuid=uuid)
+    from alipay import AliPay
+    alipay = AliPay(
+        appid=app.config['ALIPAY_APPID'],
+        app_notify_url=app.config['ALIPAY_CALLBACK_URL'],  # 默认回调url
+        app_private_key_path=app.config['ALIPAY_PRIVATE_KEY_PATH'],
+        alipay_public_key_path=app.config['ALIPAY_PUBLIC_KEY_PATH'],  # 支付宝的公钥
+        sign_type="RSA2",  # RSA 或者 RSA2
+        debug=False,  # 默认False
+    )
+    order_string = alipay.api_alipay_trade_page_pay(
+        out_trade_no=short_uuid(),
+        total_amount=b.amount_point,
+        body='bill:{}'.format(b.uuid),
+        subject='{} - {} - {}'.format(wl.mt4_id, wl.name, b.title),
+        return_url=app.config['ALIPAY_RETURN_URL'],
+    )
+    url = 'https://openapi.alipay.com/gateway.do?' + order_string
+    return redirect(url)
+
+
+@main.route('/charge', methods=['POST'])
+@admin_required
+def charge():
+    cu = current_user()
+    wl = WlLocal.find_one(mt4_id=cu.mt4_id)
+    form = request.form
+    from alipay import AliPay
+    alipay = AliPay(
+        appid=app.config['ALIPAY_APPID'],
+        app_notify_url=app.config['ALIPAY_CALLBACK_URL'],  # 默认回调url
+        app_private_key_path=app.config['ALIPAY_PRIVATE_KEY_PATH'],
+        alipay_public_key_path=app.config['ALIPAY_PUBLIC_KEY_PATH'],  # 支付宝的公钥
+        sign_type="RSA2",  # RSA 或者 RSA2
+        debug=False,  # 默认False
+    )
+    order_string = alipay.api_alipay_trade_page_pay(
+        out_trade_no=short_uuid(),
+        total_amount=form.get('charge'),
+        body='charge:{}'.format(cu.username),
+        subject='{} - {} - {}'.format(wl.mt4_id, wl.name, '充值'),
+        return_url=app.config['ALIPAY_RETURN_URL'],
+    )
+    url = 'https://openapi.alipay.com/gateway.do?' + order_string
+
+    return redirect(url)
+
+
 @main.route('/profile')
-@login_required
+@admin_required
 def profile():
     cu = current_user()
     return render_template('user/profile.html', u=cu)
@@ -347,56 +392,3 @@ def address_default(id):
     cu.add_default = id
     cu.save()
     return redirect(url_for('user.address'))
-
-
-@main.route('/charge', methods=['POST'])
-@login_required
-def charge():
-    cu = current_user()
-    form = request.form
-    from alipay import AliPay
-    alipay = AliPay(
-        appid=app.config['ALIPAY_APPID'],
-        app_notify_url=app.config['ALIPAY_CALLBACK_URL'],  # 默认回调url
-        app_private_key_path=app.config['ALIPAY_PRIVATE_KEY_PATH'],
-        alipay_public_key_path=app.config['ALIPAY_PUBLIC_KEY_PATH'],  # 支付宝的公钥
-        sign_type="RSA2",  # RSA 或者 RSA2
-        debug=False,  # 默认False
-    )
-    order_string = alipay.api_alipay_trade_page_pay(
-        out_trade_no=short_uuid(),
-        total_amount=form.get('charge'),
-        body=cu.username,
-        subject='MTK财经云充值',
-        return_url=app.config['ALIPAY_RETURN_URL'],
-    )
-    url = 'https://openapi.alipay.com/gateway.do?' + order_string
-    d = dict(
-        user_id=cu.id,
-        user_name=cu.username,
-        model='user',
-        action='charge',
-        content='用户发起充值操作，点数：{}'.format(form.get('charge')),
-    )
-    Log.new(d)
-    return redirect(url)
-    # app_id = key.pingpp_app_id
-    # pingpp.api_key = key.pingpp_api_key
-    # pingpp.private_key_path = app.config['PINGPP_PRIVATE_KEY_PATH']
-    # try:
-    #     ch = pingpp.Charge.create(
-    #         order_no='123456789001',
-    #         amount=1000000,
-    #         app=dict(id=app_id),
-    #         channel='alipay_pc_direct',
-    #         currency='cny',
-    #         client_ip='127.0.0.1',
-    #         subject='充值点数:' + cu.username,
-    #         body=cu.username,
-    #         extra=dict(success_url='http://127.0.0.1:8001/user/profile')
-    #     )
-    #     print('charge', ch)
-    #     return json.dumps(ch)
-    # except Exception as e:
-    #     print('e', e)
-    #     return json.dumps(e)

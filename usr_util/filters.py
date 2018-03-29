@@ -7,8 +7,8 @@ def time_str(t):
 
 def pay_status(t):
     d = {
-        0: '未支付',
-        1: '已支付',
+        0: '<span class="text-danger">未支付</span>',
+        1: '<span class="text-success">已支付</span>',
     }
     return d.get(t, '待处理')
 

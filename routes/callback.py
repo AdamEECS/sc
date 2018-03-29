@@ -29,17 +29,42 @@ def ali():
     )
     success = alipay.verify(data, signature)
     if success and data["trade_status"] in ("TRADE_SUCCESS", "TRADE_FINISHED"):
-        username = data.get('body')
-        trade_no = data.get('out_trade_no')
-        from decimal import Decimal
-        charge = int(Decimal(data.get('total_amount')))
-        print("[{}] succeed user: {}, charge: {} order: {}".format(time_str(timestamp()), username, charge, trade_no))
-        u = User.find_one(username=username)
-        if trade_no not in u.charge_orders:
-            u.charge_orders.append(trade_no)
-            u.point += charge
-            u.save()
-            return json.dumps({"success": True})
+        body = data.get('body')
+        body_split = body.split(':')
+        if body_split[0] == 'charge':
+            username = body_split[1]
+            trade_no = data.get('out_trade_no')
+            from decimal import Decimal
+            charge = int(Decimal(data.get('total_amount')))
+            print("[{}] succeed user: {}, charge: {} order: {}".format(time_str(timestamp()), username, charge, trade_no))
+            u = User.find_one(username=username)
+            if trade_no not in u.charge_orders:
+                u.charge_orders.append(trade_no)
+                u.point += charge
+                u.save()
+                d = dict(
+                    user_id=u.id,
+                    user_name=u.username,
+                    model='user',
+                    action='charge',
+                    content='用户充值成功，点数：{}'.format(charge),
+                )
+                Log.new(d)
+        elif body_split[0] == 'bill':
+            bill_uuid = body_split[1]
+            bill = Bill.find_one(uuid=bill_uuid)
+            if bill.status == 0:
+                bill.pay()
+                u = User.find_one(mt4_id=bill.mt4_id)
+                d = dict(
+                    user_id=u.id,
+                    user_name=u.username,
+                    model='user',
+                    action='bill_pay_now',
+                    content='用户支付订单：{}，支付成功。 支付方式：直接支付{}'.format(bill.title, bill.amount_point),
+                )
+                Log.new(d)
+        return json.dumps({"success": True})
     return json.dumps({"success": False})
 
 

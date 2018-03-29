@@ -26,10 +26,11 @@
         <tr>
             <th class="th-col-2">标题</th>
             <th class="th-col-1">金额</th>
+            <th class="th-col-1">模式</th>
             <th class="th-col-2">文件</th>
 {#            <th class="th-col-2">内容</th>#}
-            <th class="th-col-2">状态</th>
-            <th class="th-col-2">操作</th>
+            <th class="th-col-1">状态</th>
+            <th class="th-col-1">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +38,7 @@
             <tr >
                 <td>{{ b.title }}</td>
                 <td>{{ b.amount }}</td>
+                <td>{{ b.mode | bill_mode }}</td>
                 <td><a href="{{ b.url }}" target="_blank">{{ b.file }}</a></td>
 {#                <td>{{ b.content }}</td>#}
                 <td>{{ b.status|pay_status }}</td>

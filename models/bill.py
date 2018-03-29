@@ -4,6 +4,7 @@ from os.path import abspath
 from os.path import dirname
 from flask import current_app as app
 from . import MongoModel
+from . import timestamp
 
 
 class Bill(MongoModel):
@@ -41,10 +42,15 @@ class Bill(MongoModel):
                 m.amount_point = round(m.amount * 6.45)
             else:
                 m.amount_point = m.amount
-                m.amount = '{}（点数）'.format(m.amount)
         return ms
 
     @property
     def url(self):
         from flask import url_for
         return url_for('static', filename='files/'+self.file)
+
+    def pay(self):
+        if self.status == 0:
+            self.status = 1
+            self.ut = timestamp()
+            self.save()
