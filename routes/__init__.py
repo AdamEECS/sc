@@ -25,7 +25,10 @@ def login_required(f):
     def function(*args, **kwargs):
         if current_user() is None:
             return redirect(url_for('user.index'))
-        return f(*args, **kwargs)
+        # 临时禁止用户登录
+        flash('系统维护', 'danger')
+        return redirect(url_for('user.index'))
+        # return f(*args, **kwargs)
 
     return function
 
