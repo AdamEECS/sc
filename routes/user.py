@@ -129,7 +129,7 @@ def product():
 
 
 @main.route('/bills')
-@admin_required
+@login_required
 def bills():
     cu = current_user()
     m = WlLocal.find_one(mt4_id=cu.mt4_id)
@@ -138,7 +138,7 @@ def bills():
 
 
 @main.route('/bill/<uuid>/pay')
-@admin_required
+@login_required
 def bill_pay(uuid):
     cu = current_user()
     b = Bill.find_one(uuid=uuid)
@@ -162,7 +162,7 @@ def bill_pay(uuid):
 
 
 @main.route('/bill/<uuid>/pay_now')
-@admin_required
+@login_required
 def bill_pay_now(uuid):
     cu = current_user()
     wl = WlLocal.find_one(mt4_id=cu.mt4_id)
@@ -188,7 +188,7 @@ def bill_pay_now(uuid):
 
 
 @main.route('/charge', methods=['POST'])
-@admin_required
+@login_required
 def charge():
     cu = current_user()
     wl = WlLocal.find_one(mt4_id=cu.mt4_id)
@@ -215,7 +215,7 @@ def charge():
 
 
 @main.route('/profile')
-@admin_required
+@login_required
 def profile():
     cu = current_user()
     return render_template('user/profile.html', u=cu)

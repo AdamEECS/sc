@@ -10,6 +10,7 @@
         <tr>
             <th class="th-col-2">标题</th>
             <th class="th-col-1">金额</th>
+            <th class="th-col-1">模式</th>
             <th class="th-col-1">所需点数</th>
             <th class="th-col-2">文件</th>
             <th class="th-col-1">操作</th>
@@ -21,6 +22,7 @@
             <tr>
                 <td>{{ b.title }}</td>
                 <td>{{ b.amount }}</td>
+                <td>{{ b.mode | bill_mode }}</td>
                 <td>{{ b.amount_point }}</td>
                 <td><a href="{{ b.url }}" target="_blank">{{ b.file }}</a></td>
                 <td>

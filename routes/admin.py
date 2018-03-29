@@ -602,3 +602,14 @@ def logs_search():
 #     for u in us:
 #         u.cart_clear()
 #     return redirect(url_for('admin.products'))
+
+
+@main.route('/clear_bill_point')
+@admin_required
+def clear_bill_point():
+    bs = Bill.all()
+    for b in bs:
+        if '（' in str(b.amount):
+            b.amount = int(str(b.amount).split('（')[0])
+            b.save()
+    return redirect(url_for('admin.wls'))
