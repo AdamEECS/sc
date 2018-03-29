@@ -4,6 +4,8 @@ from os.path import abspath
 from os.path import dirname
 from flask import current_app as app
 from . import MongoModel
+from .user import User
+from .wl import WlLocal
 
 
 class Log(MongoModel):
@@ -20,18 +22,28 @@ class Log(MongoModel):
         fields.extend(super()._fields())
         return fields
 
-    # @classmethod
-    # def new(cls, form=None, **kwargs):
-    #     file = kwargs.get('file')
-    #     path = os.path.join(abspath(dirname(__file__)), '../', app.config['UPLOAD_FILE_DIR'], file.filename)
-    #     file.save(path)
-    #     m = super().new(form)
-    #     m.file = file.filename
-    #     m.save()
-    #     return m
+    @classmethod
+    def all(cls):
+        ms = super().all()
+        ms.reverse()
+        for m in ms:
+            u = User.find_one(id=m.user_id)
+            if u.role == 'client':
+                wl = WlLocal.find_one(mt4_id=u.mt4_id)
+                m.company = wl.name
+            else:
+                m.company = 'MTK'
+        return ms
 
     @classmethod
-    def find(cls, **kwargs):
-        ms = super().find(**kwargs)
+    def search_or(cls, form):
+        ms = super().search_or(form)
         ms.reverse()
+        for m in ms:
+            u = User.find_one(id=m.user_id)
+            if u.role == 'client':
+                wl = WlLocal.find_one(mt4_id=u.mt4_id)
+                m.company = wl.name
+            else:
+                m.company = 'MTK'
         return ms

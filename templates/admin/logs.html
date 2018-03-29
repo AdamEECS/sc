@@ -14,6 +14,7 @@
         <thead>
         <tr>
             <th class="th-col-1">用户</th>
+            <th class="th-col-1">公司</th>
             <th class="th-col-1">模块</th>
             <th class="th-col-1">动作</th>
             <th class="th-col-6">内容</th>
@@ -24,6 +25,7 @@
         {% for m in ms %}
             <tr data-id={{ m.id }}>
                 <td>{{ m.user_name }}</td>
+                <td>{{ m.company }}</td>
                 <td>{{ m.model }}</td>
                 <td>{{ m.action }}</td>
                 <td>{{ m.content }}</td>
