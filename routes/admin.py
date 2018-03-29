@@ -613,3 +613,14 @@ def clear_bill_point():
             b.amount = int(str(b.amount).split('（')[0])
             b.save()
     return redirect(url_for('admin.wls'))
+
+
+@main.route('/bills/all')
+@admin_required
+def bills_all():
+    u = current_user()
+    bs = Bill.all()
+    u.all_pay = sum([b.amount_point for b in bs if b.status == 1])
+    u.all_unpay = sum([b.amount_point for b in bs if b.status == 0])
+    u.all_amount = sum([b.amount_point for b in bs])
+    return render_template('admin/bills.html', u=u, bs=bs)
