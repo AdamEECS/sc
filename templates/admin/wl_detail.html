@@ -41,7 +41,7 @@
                 <td>{{ b.mode | bill_mode }}</td>
                 <td><a href="{{ b.url }}" target="_blank">{{ b.file }}</a></td>
 {#                <td>{{ b.content }}</td>#}
-                <td>{{ b.status|pay_status }}</td>
+                <td>{{ b.status|pay_status|safe }}</td>
                 <td><a href="{{ url_for('admin.bill_del',mt4_id=m.mt4_id, uuid=b.uuid) }}">删除</a></td>
             </tr>
         {% endfor %}
