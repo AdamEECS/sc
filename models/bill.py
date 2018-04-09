@@ -39,7 +39,7 @@ class Bill(MongoModel):
         ms.reverse()
         for m in ms:
             if m.mode == 0:
-                m.amount_point = round(m.amount * 6.45)
+                m.amount_point = round(m.amount * 6.30)
             else:
                 m.amount_point = m.amount
         return ms
