@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="">
+        <h1>Api Access Log</h1>
+    </div>
+
+    <table class="table" data-toggle="table" data-pagination="true" data-page-size="50">
+        <thead>
+        <tr>
+            <th class="th-col-1">来源IP</th>
+            <th class="th-col-1">目标URL</th>
+            <th class="th-col-1">目标ID</th>
+            <th class="th-col-6">返回值</th>
+            <th class="th-col-2">时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for m in ms %}
+            <tr data-id={{ m.id }}>
+                <td>
+                    {{ m.ip }}
+                    <span hidden>{{ m.user_agent }}</span>
+                </td>
+                <td>{{ m.url }}</td>
+                <td>{{ m.mt4id }}</td>
+                <td>{{ m.content }}</td>
+                <td>{{ m.ct | time_str }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

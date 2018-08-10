@@ -1,5 +1,6 @@
 from routes import *
 from models.wl import WlLocal
+from models.api_access_log import ApiAccessLog
 
 main = Blueprint('api', __name__)
 
@@ -35,8 +36,12 @@ def wl_status():
     mt4_id = request.args.get('id', None)
     key = request.args.get('key', None)
     if key != 'dcc4ec5c5612':
-        return json.dumps('permission denied')
-    m = WlLocal.find_one(mt4_id=mt4_id)
-    if m is None:
-        return json.dumps('permission denied')
-    return json.dumps(m.status)
+        r = json.dumps('permission denied')
+    else:
+        m = WlLocal.find_one(mt4_id=mt4_id)
+        if m is None:
+            r = json.dumps('permission denied')
+        else:
+            r = json.dumps(m.status)
+    ApiAccessLog.log(request, r)
+    return r

@@ -8,6 +8,7 @@ from models.wl import Wl, WlLocal
 from models.notice import Notice
 from models.bill import Bill
 from models.log import Log
+from models.api_access_log import ApiAccessLog
 from flask import current_app as app
 
 # import qiniu
@@ -550,6 +551,15 @@ def logs_search():
     form = request.form
     ms = Log.search_or(form)
     return render_template('admin/logs.html', u=u, ms=ms)
+
+
+@main.route('/api_access_logs')
+@manager_required
+def api_access_logs():
+    u = current_user()
+    ms = ApiAccessLog.all()
+    return render_template('admin/api_access_logs.html', ms=ms, u=u)
+
 
 # # 管理员初始化
 # @main.route('/root')
