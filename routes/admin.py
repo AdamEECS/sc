@@ -558,6 +558,7 @@ def logs_search():
 def api_access_logs():
     u = current_user()
     ms = ApiAccessLog.all()
+    ms.reverse()
     return render_template('admin/api_access_logs.html', ms=ms, u=u)
 
 
